@@ -1,0 +1,68 @@
+<style>
+    #message-container {
+        opacity: 0;
+        animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<!-- Start: Message Component -->
+{% if messages %}
+    <div id="message-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 w-auto max-w-xs space-y-2 text-center z-50">
+        {% for message in messages %}
+            <div class="flex items-center justify-between px-4 py-2 rounded-lg shadow-lg 
+                {% if message.tags == 'success' %} bg-green-600 text-white
+                {% elif message.tags == 'error' %} bg-red-600 text-white
+                {% elif message.tags == 'info' %} bg-blue-600 text-white
+                {% else %} bg-gray-600 text-white {% endif %}">
+                
+                <!-- Icon based on message type -->
+                <div class="flex items-center space-x-2">
+                    {% if message.tags == 'success' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m0 6a9 9 0 11-6.7-3.3" />
+                        </svg>
+                    {% elif message.tags == 'error' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 11-12.728 0M12 9v4m0 4h.01" />
+                        </svg>
+                    {% elif message.tags == 'info' %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m2-4h.01" />
+                        </svg>
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M19.07 4.93a10 10 0 11-14.14 0" />
+                        </svg>
+                    {% endif %}
+                    <span>{{ message }}</span>
+                </div>
+
+                <!-- Close button -->
+                <button onclick="dismissMessage(this)" class="focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Auto-hide messages after 5 seconds
+        setTimeout(() => {
+            document.getElementById('message-container').classList.add('hidden');
+        }, 5000);
+
+        // Function to dismiss message manually
+        function dismissMessage(button) {
+            button.parentElement.remove();
+        }
+    </script>
+{% endif %}
+<!-- End: Message Component -->

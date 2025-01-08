@@ -1,0 +1,26 @@
+{% load static %}
+
+<!-- START: Chat Header Section -->
+<header class="bg-slate-900 px-4 py-2 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+
+    <a href="#" class="focus:outline-none">
+        <img src="{% static 'chat/icons/avatar.png' %}" alt="Chat User" class="w-10 h-10 rounded-full" />
+    </a>
+    <div>
+    
+    {% if is_private %}
+        <p class="text-lg font-semibold">{{ other_user }}</p>
+    {% else %}
+        <p class="text-lg font-semibold">{{ chat_room.name }} <span class="text-sm text-green-400">(12 members)</span></p>
+    {% endif %}
+    <p class="text-sm text-green-400">Online</p>
+    
+    </div>
+</div>
+
+<a href="{% url "home" %}" class="text-gray-400 hover:text-white focus:outline-none" title="Exit Chat">
+    <img src="{% static 'chat/icons/exit_chat.png' %}" alt="Exit Chat" class="w-10 h-10">
+</a>
+</header>
+<!-- END: Chat Header Section -->

@@ -1,0 +1,24 @@
+/* Smooth transition for mobile menu, (main menu)*/
+#mobile-menu {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* ------------------------------------------------------ */
+/* Dropdown menu (profile picture menu)*/
+#profile-dropdown {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* ------------------------------------------------------ */
+/* Three-dot Menu (chat home page, users list, each users right side three dot menu)*/
+.user-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 10;
+}
+.user-menu.show {
+    display: block;
+}

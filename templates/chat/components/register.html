@@ -1,0 +1,59 @@
+{% load static %}
+
+<!-- START: Register Section -->
+<div class="container mx-auto px-4 py-16 flex items-center justify-center">
+    <div class="w-full max-w-md bg-slate-700 rounded-lg shadow-lg p-8">
+
+        <img src="{% static 'chat/icons/register.png' %}" alt="Login" class="w-24 h-24 mx-auto mb-6">
+        <h2 class="text-2xl font-bold text-center text-teal-400 mb-4">Welcome to Chatty!</h2>
+        <h2 class="text-3xl font-bold text-center text-teal-400 mb-6">Register</h2>
+        
+        <form action="{% url "register" %}" method="POST">
+            {% csrf_token %}
+
+            <!-- Username Input -->
+            <div class="mb-4">
+                <label for="id_username" class="block text-sm font-medium text-gray-300">{{form.username.label }}</label>
+                {{ form.username }}
+            </div>
+
+            <!-- Full Name Input -->
+            <div class="mb-4">
+                <label for="id_fullname" class="block text-sm font-medium text-gray-300">{{ form.fullname.label }}</label>
+                {{ form.fullname }}
+            </div>
+
+            <!-- Email Input -->
+            <div class="mb-4">
+                <label for="id_email" class="block text-sm font-medium text-gray-300">{{ form.email.label }}</label>
+                {{ form.email }}
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-6">
+                <label for="id_password1" class="block text-sm font-medium text-gray-300">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="mb-6">
+                <label for="id_password2" class="block text-sm font-medium text-gray-300">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" 
+                    class="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+                Register
+            </button>
+
+            <!-- Additional Links -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-400">Already have an account? 
+                    <a href="{% url "login" %}" class="text-teal-400 hover:underline">Login here</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END: Register Section -->
