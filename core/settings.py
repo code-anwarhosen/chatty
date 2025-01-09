@@ -1,18 +1,17 @@
-import os
+import os, environ
 from pathlib import Path
-
-from dotenv import load_dotenv
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-SECRET_KEY = os.getenv('SECRET_KEY')
+env = environ.Env()
+environ.Env.read_env()
+
+DEBUG = env.bool('DEBUG', default=False)
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    os.getenv('HOST_IP')
+    env('HOST_IP')
 ]
 
 INSTALLED_APPS = [
@@ -59,42 +58,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
-
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [(
-#                     os.getenv('REDIS_HOST'),
-#                     os.getenv('REDIS_PORT')
-#                 )],
-#         },
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
 #     },
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [env('REDIS_URL')],
+        },
+    },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME'),
-#         'USER': os.getenv('DB_USER'),
-#         'PASSWORD': os.getenv('DB_PASSWORD'),
-#         'HOST': os.getenv('DB_HOST'),
-#         'PORT': os.getenv('DB_PORT')
-#     }
-# }
-
+DATABASES = {
+    'default': env.db('DATABASE_URL')
+}
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -112,13 +93,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
-
 
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = 'static/'

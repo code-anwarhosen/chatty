@@ -1,20 +1,7 @@
-# Python-related
+.vscode/
 *.pyc
-*.pyo
 __pycache__
-
-# Virtual environments
 venv/
 env/
-
-# Django-related
-*.log
-*.pot
-*.pyc
-*.pyo
-
-# IDE files
-.vscode/
-
-# Environment variables file (to avoid exposing sensitive data)
 # .env
+static/admin

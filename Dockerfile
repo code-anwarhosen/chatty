@@ -22,9 +22,6 @@ RUN pip install -r requirements.txt
 # Copy the Django project files
 COPY . /app/
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
 # Expose the port the app runs on
 EXPOSE 8000
 

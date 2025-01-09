@@ -31,8 +31,22 @@ This is a real-time chat application built using Django, Django Channels, and We
    ```
    python manage.py runserver
    ```
+
    or with daphne
 
    ```
    daphne core.asgi:application --bind 0.0.0.0 --port 8000
    ```
+
+
+Docker
+
+```
+docker build -t chatty .
+```
+
+```
+docker compose up -d
+```
+
+Just run these and access it in local ip at port 80 (django + postgres + redis + nginx)
