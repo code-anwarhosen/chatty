@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./templates/**/*.html",
+    './static/chat/js/**/*.js',
   ],
   theme: {
     extend: {},
