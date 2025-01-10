@@ -1,26 +1,32 @@
-version: '3.9'
-
 services:
   db:
-    image: postgres:13
+    image: postgres:15
+    container_name: postgres
     environment:
       POSTGRES_USER: chattyuser
       POSTGRES_PASSWORD: chattypassword
       POSTGRES_DB: chattydb
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
-      - chatty_network
+      - chatty
 
   redis:
-    image: redis:alpine
+    image: redis:7-alpine
+    container_name: redis
     volumes:
       - redis_data:/data
+    restart: unless-stopped
     networks:
-      - chatty_network
+      - chatty
 
   django:
-    build: .
+    container_name: django
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: django:latest
     command: >
       sh -c "
       python manage.py makemigrations &&
@@ -30,9 +36,10 @@ services:
       "
     volumes:
       - .:/app
+    restart: unless-stopped
     environment:
       - DEBUG=False
-      - HOST_IP=192.168.1.104
+      - HOST_IP=192.168.1.95
       - DJANGO_SECRET_KEY=django-insecure-t2p2d0psa55mhz8j&v-6_y@%i(vageo$r0^*g=(3dr^yop1o)*
       - DATABASE_URL=postgres://chattyuser:chattypassword@db:5432/chattydb
       - REDIS_URL=redis://redis:6379/0
@@ -42,10 +49,11 @@ services:
     expose:
       - "8000"
     networks:
-      - chatty_network
+      - chatty
 
   nginx:
-    image: nginx:alpine
+    image: nginx:1.24-alpine
+    container_name: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./static:/app/static
@@ -54,13 +62,17 @@ services:
       - "80:80"
     depends_on:
       - django
+    restart: unless-stopped
     networks:
-      - chatty_network
+      - chatty
 
 volumes:
   postgres_data:
+    name: postgres_data
   redis_data:
+    name: redis_data
 
 networks:
-  chatty_network:
+  chatty:
+    name: chatty
     driver: bridge
