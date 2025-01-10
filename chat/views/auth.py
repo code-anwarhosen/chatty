@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from chat.forms.register import CustomUserCreationForm
 
-def user_login(request):
+def UserLoginView(request):
     """
     Handle user login functionality.
     """
@@ -21,7 +21,7 @@ def user_login(request):
     
     return render(request, 'chat/pages/login.html')
 
-def user_logout(request):
+def UserLogoutView(request):
     if request.user.is_authenticated:
         logout(request)
         messages.info(request, 'You have successfully logged out')
@@ -29,7 +29,7 @@ def user_logout(request):
         messages.error(request, 'You are not logged in')
     return redirect('login')
 
-def user_register(request):
+def UserRegisterView(request):
     """
     Handle user registration functionality.
     """

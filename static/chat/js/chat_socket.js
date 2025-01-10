@@ -12,7 +12,6 @@ const ChatSocket = new WebSocket(
 ChatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
 
-
     const msgObject = {
         type: data.message_type,
         author: data.author,

@@ -1,27 +1,28 @@
 
 // -------- START: handle search modal toggle (open, close the search modal) --------------
-const openModal = document.getElementById('search-bar');
+const searchBar = document.getElementById('search-bar'); // this is inside home page
+const searchInput = document.getElementById('modal-search-input'); // this is inside modal
+
 const closeModal = document.getElementById('close-modal-btn');
 const searchModal = document.getElementById('search-modal');
 
-openModal.addEventListener('click', () => {
+searchBar.addEventListener('click', () => {
     searchModal.classList.remove('hidden');
-    searchModal.classList.add('flex');
-    searchModal.classList.add('opacity-100');
+    searchModal.classList.add('flex', 'opacity-100');
+
+    searchInput.focus();
+    searchInput.value = '';
 });
 
 closeModal.addEventListener('click', () => {
     searchModal.classList.add('hidden');
-    searchModal.classList.remove('flex');
-    searchModal.classList.remove('opacity-100');
+    searchModal.classList.remove('flex', 'opacity-100');
 });
 // -------- END: handle search modal toggle (open, close the search modal) --------------
 
 
 // -------------------------------------------------------------------------------------
 // --------- START: fetch data, populate modal, filter as user typing -------------------
-const searchBar = document.getElementById('search-bar'); // this is inside home page
-const searchInput = document.getElementById('modal-search-input'); // this is inside modal
 const userListContainer = document.getElementById('modal-user-list');
 
 // Variable to hold the fetched user list
@@ -64,7 +65,9 @@ function populateUserList(users) {
         userItem.innerHTML = `
             <div class="flex items-center space-x-4 bg-slate-700 p-4 rounded-lg">
                 <img src="${user.avatar}" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-teal-400">
-                <p class="text-lg text-gray-300">${user.username}</p>
+                <a href="/profile/${user.username}/">
+                    <p class="text-lg text-gray-300">${user.username}</p>
+                </a>
             </div>
         `;
         userListContainer.appendChild(userItem);

@@ -2,22 +2,30 @@
 
 <!-- START: Chat Header Section -->
 <header class="fixed top-0 w-full z-50 bg-slate-900 px-4 py-2 flex items-center justify-between">
-<div class="flex items-center space-x-3">
 
-    <a href="#" class="focus:outline-none">
-        <img src="{% static 'chat/icons/avatar.png' %}" alt="Chat User" class="w-10 h-10 rounded-full" />
-    </a>
-    <div>
-    
-    {% if is_private %}
-        <p class="text-lg font-semibold">{{ other_user }}</p>
-    {% else %}
-        <p class="text-lg font-semibold">{{ chat_room.name }} <span class="text-sm text-green-400">(12 members)</span></p>
-    {% endif %}
-    <p class="text-sm text-green-400">Online</p>
-    
+{% if is_private %}
+    <div class="flex items-center space-x-3">
+        <a href="{% url "profile" other_user %}" class="focus:outline-none">
+            <img src="{% static 'chat/icons/avatar.png' %}" alt="Chat User" class="w-10 h-10 rounded-full" />
+        </a>
+        <div>
+            <p class="text-lg font-semibold">{{ other_user }}</p>
+            <p class="text-sm text-green-400">Online</p>
+        </div>
     </div>
-</div>
+
+{% else %}
+
+    <div class="flex items-center space-x-3">
+        <a href="#" class="focus:outline-none">
+            <img src="{% static 'chat/icons/avatar.png' %}" alt="Chat User" class="w-10 h-10 rounded-full" />
+        </a>
+        <div>
+            <p class="text-lg font-semibold">{{ chat_room.name }} <span class="text-sm text-green-400">(3 members)</span></p>
+            <p class="text-sm text-green-400">2 Online</p>
+        </div>
+    </div>
+{% endif %}
 
 <a href="{% url "home" %}" class="text-gray-400 hover:text-white focus:outline-none" title="Exit Chat">
     <img src="{% static 'chat/icons/exit_chat.png' %}" alt="Exit Chat" class="w-10 h-10">
