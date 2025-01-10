@@ -59,8 +59,8 @@
   <!-- END: JS Section -->
 
   <!-- uid for chat_socket.js and username for chat_text_msg_html.js -->
-  {{ chat_room.uid|json_script:"chat_room_uid" }}
-  {{ request.user.username|json_script:"current_user_name" }}
+  {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from chat_socket.js -->
+  {{ request.user.username|json_script:"current_user_name" }} <!-- Called from chat_text_msg.js -->
   
   <script src="{% static 'chat/js/chat_socket.js' %}"></script>
   <script src="{% static 'chat/js/chat_text_msg_html.js' %}"></script>

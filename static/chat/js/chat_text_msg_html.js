@@ -5,6 +5,7 @@ function addTextMessageToChatBox(message) {
     // Determine if the message was sent by the current user
     // const isCurrentUser = message.author === "{{ request.user.username }}";
 
+    // current_user_name located in chatroom/base.html
     let current_user = JSON.parse(document.getElementById('current_user_name').textContent);
     const isCurrentUser = message.author === current_user;
 

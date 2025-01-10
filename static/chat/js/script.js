@@ -1,4 +1,4 @@
-// START: Hamburger Menu Toggle (Main Menu)
+// ---------- START: Hamburger Menu Toggle (Main Menu) ------------------------
 const menuBtn = document.getElementById('menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 let menuOpen = false;
@@ -27,10 +27,10 @@ function toggleMenu() {
         setTimeout(() => mobileMenu.classList.add('hidden'), 300);
     }
 }
-// END: Hamburger Menu Toggle (Main Menu)
-//---------------------------------------------------------------------------------
+// ------------- END: Hamburger Menu Toggle (Main Menu) -------------------------
 
-// START: Profile Dropdown Toggle (User Profile Picture Menu)
+
+// ------------- START: Profile Dropdown Toggle (User Profile Picture Menu) --------------
 const profileBtn = document.getElementById('profile-btn');
 const profileDropdown = document.getElementById('profile-dropdown');
 let dropdownOpen = false;
@@ -59,10 +59,9 @@ function toggleDropdown() {
         setTimeout(() => profileDropdown.classList.add('hidden'), 200);
     }
 }
-// END: Profile Dropdown Toggle (User Profile Picture Menu)
-//---------------------------------------------------------------------------------
+// --------------------- END: Profile Dropdown Toggle (User Profile Picture Menu) --------------------
 
-// START: Three-dot Menu Toggle for Each User (User List Page, Three Dot Menu On the Right Side of Each User)
+// ------------------- START: Toggle Three-dot Menu (User List Page) ----------------------------
 document.querySelectorAll('.three-dot-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -91,5 +90,4 @@ window.addEventListener('click', () => {
         menu.classList.remove('show');
     });
 });
-// END: Three-dot Menu Toggle for Each User (User List Page, Three Dot Menu On the Right Side of Each User)
-//---------------------------------------------------------------------------------
+// ------------------- END: Toggle Three-dot Menu (User List Page) ----------------------------

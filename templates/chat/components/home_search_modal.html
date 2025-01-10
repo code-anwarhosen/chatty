@@ -1,0 +1,28 @@
+{% load static %}
+
+<!-- START: Search Modal -->
+<div id="search-modal" class="fixed inset-0 bg-slate-900 bg-opacity-90 hidden opacity-0 z-50 items-center justify-center">
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg w-11/12 max-w-xl">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-teal-400">Search Users</h3>
+            <button id="close-modal-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <input type="text" id="modal-search-input" placeholder="Type a username..." class="w-full p-2 rounded-lg bg-slate-700 text-gray-300 border border-slate-600 focus:outline-none focus:ring-1 focus:ring-teal-700 mb-4">
+        <div id="modal-user-list" class="space-y-3" style="max-height: 70vh; overflow-y: auto;">
+
+            <!-- START: user items in modal -->
+            <div class="flex items-center space-x-4 bg-slate-700 p-4 rounded-lg">
+                <img src="https://via.placeholder.com/40" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-teal-400">
+                <p class="text-lg text-gray-300">John Doe</p>
+            </div>
+            <!-- END: user items in modal -->
+        </div>
+    </div>
+</div>
+<!-- END: Search Modal -->
+
+<script src="{% static 'chat/js/fetch_search_user.js' %}"></script>

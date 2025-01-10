@@ -1,6 +1,7 @@
-// const roomUid = "{{ chat_room.uid }}";
+// chat_room_uid located in chatroom/base.html
 const roomUid = JSON.parse(document.getElementById('chat_room_uid').textContent);
 
+// ----------------- Initializing WebSocket ------------------
 let protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const ChatSocket = new WebSocket(
     `${protocol}//${window.location.host}/ws/chat/${roomUid}/`

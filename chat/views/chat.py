@@ -1,7 +1,9 @@
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from chat.models import ChatRoom, Membership, Message
+from django.contrib.auth.models import User
 
 @login_required
 def home(request):
@@ -40,3 +42,22 @@ def chat_room(request, room_uid):
         'other_user': room.members.exclude(id=user.id).first() if room.is_private else None,
     }
     return render(request, 'chat/pages/chat_room.html', context)
+
+@login_required
+def user_list(request):
+    '''
+    In the home page when user click on the search bar
+    this view is called by javascript fetch
+    get all users list excluding logged in user
+    return a list of all user by JsonResponse to be able to populate the search list with js
+    '''
+    users = User.objects.exclude(id=request.user.id).values('username')
+    user_list = list()  # Convert the queryset to a list of dictionaries
+
+    for user in users:
+        user_list.append({
+            'username': user['username'],
+            'avatar': '/static/chat/icons/avatar.png'
+        })
+
+    return JsonResponse({'users': user_list})
