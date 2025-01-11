@@ -9,6 +9,12 @@ const ChatSocket = new WebSocket(
 );
 
 // ------------------- WebSocket events -------------------
+// Show message when WebSocket connection is stabilished
+ChatSocket.onopen = function(e) {
+    console.log('WebSocket Connection Stabilished!');
+};
+
+// populate chat box when received a message
 ChatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
 
@@ -23,9 +29,14 @@ ChatSocket.onmessage = function(e) {
     }
 };
 
-// Show an error message when WebSocket connection is closed
+// Show an error message when an error occour
+ChatSocket.onerror = function(e) {
+    console.error('WebSocket Error!');
+};
+
+// Show message when WebSocket connection is closed
 ChatSocket.onclose = function(e) {
-    console.error('WebSocket closed unexpectedly');
+    console.error('WebSocket Connection Closed');
 };
 
 

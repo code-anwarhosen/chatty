@@ -37,8 +37,6 @@ searchBar.addEventListener('focus', async () => {
             const data = await response.json();
             allUsers = data.users;  // Store the fetched users in the global variable
             populateUserList(allUsers);  // Call to populate the modal with all users
-
-            console.log('users: ', allUsers)
         } catch (error) {
             console.error('Error fetching user list:', error);
         }
@@ -48,7 +46,6 @@ searchBar.addEventListener('focus', async () => {
 // Function to filter and display users based on the search input
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
-    console.log(query)
     const filteredUsers = allUsers.filter(user => 
         user.username.toLowerCase().includes(query)
     );
