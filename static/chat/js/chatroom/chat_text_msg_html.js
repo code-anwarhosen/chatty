@@ -9,7 +9,7 @@ function addTextMessageToChatBox(message) {
 
     // Generate the HTML structure
     const textMessageHTML = `
-        <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''} transition-all duration-300 opacity-0">
+        <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''}">
             ${!isCurrentUser ? '<img src="/static/chat/icons/avatar.png" alt="User" class="w-8 h-8 rounded-full" />' : ''}
             
             <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
@@ -28,17 +28,11 @@ function addTextMessageToChatBox(message) {
             </div>
         </div>
     `;
-
     // Append the message HTML to the chat box
     chatBox.insertAdjacentHTML('beforeend', textMessageHTML);
 
-    // Find the last inserted message and trigger the transition
-    const lastMessage = chatBox.lastElementChild;
-    lastMessage.classList.remove('opacity-0');
-    lastMessage.classList.add('opacity-100');
-
-    // Scroll to the bottom of the chat box
-    chatBox.scrollTop = chatBox.scrollHeight;
+    // this function is in chat_script file
+    scrollToBottom();
 }
 
 // Utility function to format time (if needed)

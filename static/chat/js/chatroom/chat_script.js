@@ -3,12 +3,38 @@ function viewMedia(url) {
 window.open(url, '_blank');
 }
 
-// ----- function to scroll to bottom of the chat ------------
+// chat-box container
+const chatContainer = document.getElementById('chat-box');
+
+// function to scroll to bottom of chat-box
 function scrollToBottom() {
-const mainContainer = document.querySelector('main');
-mainContainer.scrollTop = mainContainer.scrollHeight;
+    const lastMessage = chatContainer.lastElementChild;
+    if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: 'smooth' });
+    }
 }
-scrollToBottom();
+
+// ----- START: Scroll to bottom of the chat when the page loads ------------
+window.addEventListener('load', () => {
+    scrollToBottom();
+});
+// ----- END: Scroll to bottom of the chat when the page loads ------------
+
+// START: Show scroll button if user scroll up in chat box -------------------------
+chatContainer.addEventListener('scroll', () => {
+    const scrollDownBtn = document.getElementById('scroll-down-btn');
+
+    const threshold = 50;
+    const isAtBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + threshold;
+
+    if (isAtBottom) {
+        scrollDownBtn.style.display = 'none';
+    } else {
+        scrollDownBtn.style.display = 'block';
+    }
+});
+// START: Show scroll button if user scroll up in chat box -------------------------
+
 
 // ----------- START: Function to toggle message's hover menu (Reply, Edit, Delete) -----------
 function toggleMenu(event) {
