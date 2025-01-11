@@ -15,55 +15,13 @@
     {% block content %}
     {% endblock %}
 
-<!-- START: JS Section -->
-<script>
-  // function to open media in new tab
-  function viewMedia(url) {
-    window.open(url, '_blank');
-  }
-
-  // function to scroll to bottom of the chat
-  function scrollToBottom() {
-    const mainContainer = document.querySelector('main');
-    mainContainer.scrollTop = mainContainer.scrollHeight;
-  }
-  scrollToBottom();
-
-  // Function to toggle each message's hover menu (Reply, Edit, Delete)
-  function toggleMenu(event) {
-    const menu = event.target.closest('.relative').querySelector('.message-menu');
-    if (menu.classList.contains('hidden')) {
-      closeAllMenus();
-      menu.classList.remove('hidden');
-    } else {
-      menu.classList.add('hidden');
-    }
-  }
-
-  // Close all open menus
-  function closeAllMenus() {
-    document.querySelectorAll('.message-menu').forEach(menu => menu.classList.add('hidden'));
-  }
-
-  // Attach mouseenter and mouseleave events to message containers
-  document.querySelectorAll('.relative').forEach(msg => {
-    msg.addEventListener('mouseenter', toggleMenu);
-    msg.addEventListener('mouseleave', closeAllMenus);
-  });
-
-  // Prevent closing menu when interacting with it
-  document.querySelectorAll('.message-menu').forEach(menu => {
-    menu.addEventListener('click', event => event.stopPropagation());
-  });
-</script>
-  <!-- END: JS Section -->
-
   <!-- uid for chat_socket.js and username for chat_text_msg_html.js -->
   {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from chat_socket.js -->
   {{ request.user.username|json_script:"current_user_name" }} <!-- Called from chat_text_msg.js -->
   
-  <script src="{% static 'chat/js/chat_socket.js' %}"></script>
-  <script src="{% static 'chat/js/chat_text_msg_html.js' %}"></script>
+  <script src="{% static 'chat/js/chatroom/chat_socket.js' %}"></script>
+  <script src="{% static 'chat/js/chatroom/chat_text_msg_html.js' %}"></script>
+  <script src="{% static 'chat/js/chatroom/chat_script.js' %}"></script>
 
 </body>
 </html>
