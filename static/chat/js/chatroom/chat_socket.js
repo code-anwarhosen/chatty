@@ -47,7 +47,6 @@ const sendButton = document.getElementById('chat-msg-send-btn');
 // Send message when button is clicked
 sendButton.addEventListener('click', function() {
     const message = inputField.value;
-    console.log("Message:", message);
 
     if (String(message).trim().length !== 0){
         ChatSocket.send(JSON.stringify({
@@ -55,6 +54,7 @@ sendButton.addEventListener('click', function() {
         }));
     }
     inputField.value = '';
+    inputField.focus();
 });
 
 // click send button when enter key is pressed

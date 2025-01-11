@@ -1,9 +1,7 @@
+// This functions is being called from chat_socket when ChatSocket receive a message
 function addTextMessageToChatBox(message) {
     // Get the chat-box element
     const chatBox = document.getElementById('chat-box');
-
-    // Determine if the message was sent by the current user
-    // const isCurrentUser = message.author === "{{ request.user.username }}";
 
     // current_user_name located in chatroom/base.html
     let current_user = JSON.parse(document.getElementById('current_user_name').textContent);
@@ -12,7 +10,7 @@ function addTextMessageToChatBox(message) {
     // Generate the HTML structure
     const textMessageHTML = `
         <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''} transition-all duration-300 opacity-0">
-            ${!isCurrentUser ? '<img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full" />' : ''}
+            ${!isCurrentUser ? '<img src="/static/chat/icons/avatar.png" alt="User" class="w-8 h-8 rounded-full" />' : ''}
             
             <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
                 <div class="flex items-center justify-between">
