@@ -105,7 +105,7 @@ if DEBUG:
     STATICFILES_DIRS = [BASE_DIR / 'static']
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/auth/login/'
