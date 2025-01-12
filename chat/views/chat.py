@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from chat.models import ChatRoom, Membership, Message
+from chat.models import Profile, ChatRoom, Message
 from django.contrib.auth.models import User
 
 @login_required

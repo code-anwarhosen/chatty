@@ -2,11 +2,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from chat.forms.register import CustomUserCreationForm
+from chat.models import Profile
 
 def UserLoginView(request):
-    """
-    Handle user login functionality.
-    """
+    """Handle user login functionality"""
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -18,7 +17,6 @@ def UserLoginView(request):
             return redirect('home')
         else:
             messages.error(request, 'Invalid Username or Password!')
-    
     return render(request, 'chat/pages/login.html')
 
 def UserLogoutView(request):
@@ -30,17 +28,16 @@ def UserLogoutView(request):
     return redirect('login')
 
 def UserRegisterView(request):
-    """
-    Handle user registration functionality.
-    """
+    """Handle user registration functionality"""
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user, is_online=True)
 
             login(request, user)
             messages.success(request, 'Registration successful!')
-            return redirect('home')
+            return redirect('profile', username=user.username)
         else:
             messages.error(request, 'Registration failed. Please correct the below errors.')
             for error in form.errors:
