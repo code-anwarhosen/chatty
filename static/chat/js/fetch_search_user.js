@@ -61,7 +61,7 @@ function populateUserList(users) {
         userItem.innerHTML = `
             <div class="flex items-center space-x-4 bg-slate-700 p-4 rounded-lg">
                 <img src="${user.avatar}" alt="User Avatar" class="w-10 h-10 rounded-full">
-                <a href="/profile/${user.username}/">
+                <a href="/auth/user/profile/${user.username}/">
                     <p class="text-lg text-gray-300">${user.full_name}</p>
                 </a>
             </div>

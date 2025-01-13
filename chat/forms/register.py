@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-tailwindcss_classes_register_form = 'w-full px-4 py-2 mt-1 bg-slate-900 text-white rounded-lg border border-slate-600 focus:ring-2 focus:ring-teal-400 focus:outline-none'
+tailwindcss_classes_register_form = 'w-full px-4 py-2 mt-1 bg-slate-800 text-white rounded-lg border border-slate-600 focus:ring-2 focus:ring-teal-400 focus:outline-none'
 
 class CustomUserCreationForm(UserCreationForm):
     fullname = forms.CharField(

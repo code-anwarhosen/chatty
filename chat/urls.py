@@ -1,15 +1,17 @@
 from django.urls import path
-from chat.views.auth import UserLoginView, UserLogoutView, UserRegisterView
-from chat.views.chat import HomeView, UserProfileView, UserListView, ChatRoomView, PrivateChatRoomView
+from chat.views.auth import UserLogin, UserLogout, UserRegister, UserProfile, EditUserProfile, UpdateUserProfile
+from chat.views.chat import Home, UserSearchList, InitiatePrivateChat, ChatRoomView
 
 urlpatterns = [
-    path('auth/login/', UserLoginView, name='login'),
-    path('auth/register/', UserRegisterView, name='register'),
-    path('auth/logout/', UserLogoutView, name='logout'),
+    path('auth/login/', UserLogin, name='login'),
+    path('auth/register/', UserRegister, name='register'),
+    path('auth/logout/', UserLogout, name='logout'),
+    path('auth/user/profile/<str:username>/', UserProfile, name='profile'),
+    path('auth/user/edit-profile/', EditUserProfile, name='edit_profile'),
+    path('auth/user/update-profile/', UpdateUserProfile, name='update_profile'),
 
-    path('', HomeView, name='home'),
+    path('', Home, name='home'),
+    path('user-list/', UserSearchList, name='user_list'),
+    path('private-chat/<str:username>/', InitiatePrivateChat, name='private_room'),
     path('room/<str:room_uid>/', ChatRoomView, name='chatroom'),
-    path('user-list/', UserListView, name='user_list'),
-    path('profile/<str:username>/', UserProfileView, name='profile'),
-    path('private-chat/<str:username>/', PrivateChatRoomView, name='private_room'),
 ]

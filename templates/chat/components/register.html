@@ -1,5 +1,19 @@
 {% load static %}
 
+<!-- Start: Login/Register Page Header Section -->
+<header class="p-4 px-10 bg-slate-900 shadow flex justify-between items-center">
+    <!-- <h1 class="text-2xl font-bold">Poke</h1> -->
+    <img src="{% static 'chat/icons/logo2.webp' %}" alt="User Profile" class="w-10 h-10 rounded-full border-1 border-teal-400 cursor-pointer">
+    
+    <a href="{% url "login" %}" class="flex items-center space-x-2 text-sm font-medium hover:text-gray-300">
+        <!-- User Icon -->
+        <span>Login</span>
+    </a>
+    
+</header>
+<!-- End: Login/Register Page Header Section -->
+
+
 <!-- START: Register Section -->
 <div class="container mx-auto px-4 py-16 flex items-center justify-center">
     <div class="w-full max-w-md bg-slate-700 rounded-lg shadow-lg p-8">
@@ -43,14 +57,14 @@
 
             <!-- Submit Button -->
             <button type="submit" 
-                    class="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+                    class="w-full bg-blue-500 hover:bg-slate-800 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
                 Register
             </button>
 
             <!-- Additional Links -->
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-400">Already have an account? 
-                    <a href="{% url "login" %}" class="text-teal-400 hover:underline">Login here</a>
+                    <a href="{% url "login" %}" class="text-slate-100 hover:underline">Login here</a>
                 </p>
             </div>
         </form>

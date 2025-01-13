@@ -1,7 +1,7 @@
 {% load static %}
 
 <!-- START: ChatRoom List Section -->
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8 max-w-4xl">
 
     <!-- START: Search Bar Section -->
     <div class="mb-1 flex items-center space-x-1 max-w-[70%] mx-auto">
@@ -24,7 +24,7 @@
         <!-- ChatRoom Item -->
         <div class="relative bg-slate-700 p-4 rounded-lg shadow-md flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <img src="{{ room.second_user.profile.avatar.url }}" alt="User Avatar" class="w-10 h-10 rounded-full">
+                <img src="{{ room.second_user.profile.avatar.url }}" alt="User Avatar" class="w-12 h-12 rounded-full">
                 <div>
                     <p class="text-lg font-semibold text-gray-200">
                         <!-- other user name in private room -->
