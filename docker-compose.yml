@@ -3,14 +3,14 @@ services:
     image: postgres:15
     container_name: postgres
     environment:
-      POSTGRES_USER: chattyuser
-      POSTGRES_PASSWORD: chattypassword
-      POSTGRES_DB: chattydb
+      POSTGRES_USER: Pokeuser
+      POSTGRES_PASSWORD: Pokepassword
+      POSTGRES_DB: Pokedb
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - chatty
+      - Poke
 
   redis:
     image: redis:7-alpine
@@ -19,7 +19,7 @@ services:
       - redis_data:/data
     restart: unless-stopped
     networks:
-      - chatty
+      - Poke
 
   django:
     container_name: django
@@ -41,7 +41,7 @@ services:
       - DEBUG=False
       - HOST_IP=192.168.1.95
       - DJANGO_SECRET_KEY=django-insecure-t2p2d0psa55mhz8j&v-6_y@%i(vageo$r0^*g=(3dr^yop1o)*
-      - DATABASE_URL=postgres://chattyuser:chattypassword@db:5432/chattydb
+      - DATABASE_URL=postgres://Pokeuser:Pokepassword@db:5432/Pokedb
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
@@ -49,7 +49,7 @@ services:
     expose:
       - "8000"
     networks:
-      - chatty
+      - Poke
 
   nginx:
     image: nginx:1.24-alpine
@@ -64,7 +64,7 @@ services:
       - django
     restart: unless-stopped
     networks:
-      - chatty
+      - Poke
 
 volumes:
   postgres_data:
@@ -73,6 +73,6 @@ volumes:
     name: redis_data
 
 networks:
-  chatty:
-    name: chatty
+  Poke:
+    name: Poke
     driver: bridge

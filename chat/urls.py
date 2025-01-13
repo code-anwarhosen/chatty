@@ -1,5 +1,5 @@
 from django.urls import path
-from chat.views.auth import UserLogin, UserLogout, UserRegister, UserProfile, EditUserProfile, UpdateUserProfile
+from chat.views.auth import UserLogin, UserLogout, UserRegister, UserProfile, EditUserProfile, UpdateUserProfile, ChangeUserPassword
 from chat.views.chat import Home, UserSearchList, InitiatePrivateChat, ChatRoomView
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('auth/user/profile/<str:username>/', UserProfile, name='profile'),
     path('auth/user/edit-profile/', EditUserProfile, name='edit_profile'),
     path('auth/user/update-profile/', UpdateUserProfile, name='update_profile'),
+    path('auth/user/change-password/', ChangeUserPassword, name='change_password'),
 
     path('', Home, name='home'),
     path('user-list/', UserSearchList, name='user_list'),

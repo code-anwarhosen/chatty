@@ -5,7 +5,7 @@
 
     <header class="flex items-center justify-between mb-4 px-3">
         <h2 class="text-xl font-semibold">Profile</h2>
-        <!-- Back Button with SVG Icon -->
+        <!-- Back Button -->
         <button 
             onclick="history.back()" 
             class="flex items-center space-x-2 text-white hover:text-blue-500 focus:outline-none">
@@ -50,7 +50,7 @@
         <button class="w-full px-4 py-2 bg-slate-800 hover:bg-gray-600 rounded-lg text-white font-medium mb-2">
             <a href="{% url "private_room" profile.username %}">Send Messages</a>
         </button>
-        <button class="w-full px-4 py-2 bg-slate-800 hover:bg-blue-700 rounded-lg text-white font-medium mb-2">
+        <!-- <button class="w-full px-4 py-2 bg-slate-800 hover:bg-blue-700 rounded-lg text-white font-medium mb-2">
             Add to Contacts
         </button>
         <button class="w-full px-4 py-2 bg-slate-800 hover:bg-yellow-700 rounded-lg text-white font-medium mb-2">
@@ -58,7 +58,7 @@
         </button>
         <button class="w-full px-4 py-2 bg-slate-800 hover:bg-red-700 rounded-lg text-white font-medium mb-2">
             Block
-        </button>
+        </button> -->
     </div>
 {% endif %}
 </main>

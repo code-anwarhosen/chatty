@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from chat.forms.register import CustomUserCreationForm
+from chat.forms.password_change import CustomPasswordChangeForm
 from chat.models import Profile
 
 def UserLogin(request):
@@ -63,7 +65,11 @@ def UserProfile(request, username):
 
 @login_required
 def EditUserProfile(request):
-    return render(request, 'chat/pages/edit_profile.html')
+    passwordChangeForm = CustomPasswordChangeForm(request.user)
+    context = {
+        'passForm': passwordChangeForm
+    }
+    return render(request, 'chat/pages/edit_profile.html', context)
 
 
 @login_required
@@ -90,9 +96,23 @@ def UpdateUserProfile(request):
             profile.avatar = avatar  # Update avatar only if a new file is uploaded
         profile.save()
 
-        print('--------', avatar)
-
         messages.success(request, "Profile updated successfully!")
         return redirect('profile', username=user.username)  # Redirect to profile page after updating
 
     return render(request, 'profile/update_profile.html')
+
+@login_required
+def ChangeUserPassword(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user) # keep the user logged in
+
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile', username=request.user)
+        else:
+            for error in form.errors:
+                messages.error(request, f'{form.errors[error][0]}')
+
+    return redirect('edit_profile')
