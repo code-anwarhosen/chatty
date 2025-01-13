@@ -38,28 +38,30 @@ chatContainer.addEventListener('scroll', () => {
 
 // ----------- START: Function to toggle message's hover menu (Reply, Edit, Delete) -----------
 function toggleMenu(event) {
-const menu = event.target.closest('.relative').querySelector('.message-menu');
-if (menu.classList.contains('hidden')) {
-    closeAllMenus();
-    menu.classList.remove('hidden');
-} else {
-    menu.classList.add('hidden');
-}
+    const msgContainer = event.target.closest('.relative');
+    if (!msgContainer) return; // Ensure it's a valid message container
+
+    const menu = msgContainer.querySelector('.message-menu');
+    if (menu) {
+        closeAllMenus();
+        menu.classList.remove('hidden');
+    }
 }
 
 // Close all open menus
 function closeAllMenus() {
-document.querySelectorAll('.message-menu').forEach(menu => menu.classList.add('hidden'));
+    document.querySelectorAll('.message-menu').forEach(menu => menu.classList.add('hidden'));
 }
 
-// Attach mouseenter and mouseleave events to message containers
-document.querySelectorAll('.relative').forEach(msg => {
-msg.addEventListener('mouseenter', toggleMenu);
-msg.addEventListener('mouseleave', closeAllMenus);
-});
+// Attach mouseenter and mouseleave events using event delegation
+const chatBox = document.getElementById('chat-box');
+chatBox.addEventListener('mouseenter', toggleMenu, true);
+chatBox.addEventListener('mouseleave', closeAllMenus, true);
 
 // Prevent closing menu when interacting with it
-document.querySelectorAll('.message-menu').forEach(menu => {
-menu.addEventListener('click', event => event.stopPropagation());
+chatBox.addEventListener('click', event => {
+    if (event.target.closest('.message-menu')) {
+        event.stopPropagation();
+    }
 });
 // ----------- END: Function to toggle message's hover menu (Reply, Edit, Delete) -----------

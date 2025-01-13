@@ -10,7 +10,7 @@ function addTextMessageToChatBox(message) {
     // Generate the HTML structure
     const textMessageHTML = `
         <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''}">
-            ${!isCurrentUser ? '<img src="/static/chat/icons/avatar.png" alt="User" class="w-8 h-8 rounded-full" />' : ''}
+            ${!isCurrentUser ? `<img src="${message.avatar}" alt="User" class="w-8 h-8 rounded-full" />` : ''}
             
             <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
                 <div class="flex items-center justify-between">

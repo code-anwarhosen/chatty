@@ -23,6 +23,10 @@ class Profile(models.Model):
     is_online = models.BooleanField(default=False)
     last_seen = models.DateTimeField(blank=True, null=True)
 
+    @property
+    def full_name(self):
+        return self.user.get_full_name()
+
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = str(uuid.uuid4())
@@ -75,10 +79,14 @@ class Profile(models.Model):
 class ChatRoom(models.Model):
     uid = models.CharField(max_length=200, unique=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
-    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    members = models.ManyToManyField(User, blank=True, related_name='rooms') # access all rooms of a user by user.rooms.all() that means if a username is anwar then anwar.rooms.all() will return all rooms of anwar
+    # 1) User if is_private==False, othewise NULL. 2)access all ChatRooms of a user by User.admin_of_rooms.all()
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='admin_of_rooms')
+    # access all rooms of a user by User.rooms.all() that means if a username is anwar then anwar.rooms.all() will return all rooms of anwar
+    members = models.ManyToManyField(User, blank=True, related_name='rooms')
+    
     is_private = models.BooleanField(default=False)
-
+    # I will use this field in views function, this field is not neccessary, everything will works just fine even without this field
+    second_user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

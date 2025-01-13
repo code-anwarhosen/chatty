@@ -21,7 +21,6 @@ closeModal.addEventListener('click', () => {
 // -------- END: handle search modal toggle (open, close the search modal) --------------
 
 
-// -------------------------------------------------------------------------------------
 // --------- START: fetch data, populate modal, filter as user typing -------------------
 const userListContainer = document.getElementById('modal-user-list');
 
@@ -61,9 +60,9 @@ function populateUserList(users) {
 
         userItem.innerHTML = `
             <div class="flex items-center space-x-4 bg-slate-700 p-4 rounded-lg">
-                <img src="${user.avatar}" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-teal-400">
+                <img src="${user.avatar}" alt="User Avatar" class="w-10 h-10 rounded-full">
                 <a href="/profile/${user.username}/">
-                    <p class="text-lg text-gray-300">${user.username}</p>
+                    <p class="text-lg text-gray-300">${user.full_name}</p>
                 </a>
             </div>
         `;

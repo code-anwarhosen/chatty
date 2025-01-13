@@ -10,7 +10,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_uid = self.scope['url_route']['kwargs']['room_uid']
         self.room_group_name = f'chat_{self.room_uid}'
 
+        # Storing variables to use in other functions to reduce db query
         self.user = self.scope['user']
+        self.profile = await database_sync_to_async(lambda: self.user.profile)()
 
         # Join room group
         await self.channel_layer.group_add(
@@ -38,6 +40,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'message': message,
                 'message_type': 'text' if message else 'image',
                 'author': self.user.username,
+                'avatar': self.profile.avatar.url
             }
         )
     
@@ -50,10 +53,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
         message_type = event['message_type']
         author = event['author']
+        avatar = event['avatar']
 
         # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
             'message_type': message_type,
             'author': author,
+            'avatar': avatar,
         }))

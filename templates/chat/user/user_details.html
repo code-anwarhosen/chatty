@@ -2,11 +2,19 @@
 <main class="flex-1 p-6">
     <!-- User Avatar and Name -->
     <div class="flex flex-col items-center mb-8">
-        <img src="{{ avatar }}" alt="User Avatar" class="rounded-full bg-gray-600 mb-4" style="max-width: 200px; max-height: 200px;">
-        <!-- <h2 class="text-2xl font-semibold">Kauwa Kader</h2> -->
+        <img src="{{ profile.profile.avatar.url }}" alt="User Avatar" class="rounded-full bg-gray-600 mb-4" style="max-width: 200px; max-height: 200px;">
+        <h2 class="text-2xl font-semibold">{{ profile.profile.full_name }}</h2>
         <h4 class="text-md font-semibold">@{{ profile.username }}</h4>
-        <p class="text-sm text-gray-400">Online</p>
-        <hr style="border: none; height: 2px; background-color: rgb(227, 220, 225); width: 80%; margin-top: 20px;">
+        
+        <!-- user online status  -->
+        <p class="text-sm text-gray-400">
+            {% if profile.profile.is_online %}
+                Online
+            {% else %}
+                active {{ profile.profile.last_seen|timesince }} ago 
+            {% endif %}
+        </p>
+        <hr style="border: none; height: 2px; background-color: rgb(227, 220, 225); width: 70%; margin-top: 20px;">
     </div>
 
 {% if user.username == profile.username %}

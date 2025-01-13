@@ -22,6 +22,7 @@ ChatSocket.onmessage = function(e) {
         type: data.message_type,
         author: data.author,
         content: data.message,
+        avatar: data.avatar,
         created_at: new Date().toISOString()
     };
     if (msgObject.type === 'text') {

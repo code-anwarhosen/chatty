@@ -24,13 +24,20 @@
         <!-- ChatRoom Item -->
         <div class="relative bg-slate-700 p-4 rounded-lg shadow-md flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <img src="/static/chat/icons/avatar.png" alt="User Avatar" class="w-12 h-12 rounded-full">
+                <img src="{{ room.second_user.profile.avatar.url }}" alt="User Avatar" class="w-10 h-10 rounded-full">
                 <div>
-                    <p class="text-lg font-semibold text-gray-300">
+                    <p class="text-lg font-semibold text-gray-200">
                         <!-- other user name in private room -->
-                        <a href="{% url "chatroom" room.uid %}">{{ room.other_user }}</a>
+                        <a href="{% url "chatroom" room.uid %}">{{ room.second_user.profile.full_name }}</a>
                     </p>
-                    <p class="text-sm text-gray-400">Online</p>
+                    <!-- user online status  -->
+                    <p class="text-sm text-gray-400">
+                        {% if room.second_user.profile.is_online %}
+                            Online
+                        {% else %}
+                            active {{ room.second_user.profile.last_seen|timesince }} ago 
+                        {% endif %}
+                    </p>
                 </div>
             </div>
             

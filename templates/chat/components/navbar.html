@@ -16,7 +16,7 @@
 
         <!-- User Profile Icon -->
         <div class="relative">
-            <img id="profile-btn" src="{% static 'chat/icons/avatar.png' %}" alt="User Profile" class="w-10 h-10 rounded-full border-1 border-teal-400 cursor-pointer">
+            <img id="profile-btn" src="{{ user.profile.avatar.url }}" alt="User Profile" class="w-10 h-10 rounded-full border-1 border-teal-400 cursor-pointer">
             <!-- Profile Dropdown -->
             <div id="profile-dropdown" class="absolute right-0 mt-2 w-40 bg-slate-700 border border-slate-600 rounded-md hidden opacity-0 shadow-lg">
                 
