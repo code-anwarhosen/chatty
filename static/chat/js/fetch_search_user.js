@@ -8,7 +8,7 @@ const searchModal = document.getElementById('search-modal');
 
 searchBar.addEventListener('click', () => {
     searchModal.classList.remove('hidden');
-    searchModal.classList.add('flex', 'opacity-100');
+    searchModal.classList.add('flex');
 
     searchInput.focus();
     searchInput.value = '';
@@ -16,7 +16,7 @@ searchBar.addEventListener('click', () => {
 
 closeModal.addEventListener('click', () => {
     searchModal.classList.add('hidden');
-    searchModal.classList.remove('flex', 'opacity-100');
+    searchModal.classList.remove('flex');
 });
 // -------- END: handle search modal toggle (open, close the search modal) --------------
 
@@ -46,7 +46,7 @@ searchBar.addEventListener('focus', async () => {
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     const filteredUsers = allUsers.filter(user => 
-        user.username.toLowerCase().includes(query)
+        user.full_name.toLowerCase().includes(query)
     );
     populateUserList(filteredUsers);
 });

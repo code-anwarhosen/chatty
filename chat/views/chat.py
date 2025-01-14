@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 @login_required
 def Home(request):
     user = request.user
-    rooms = ChatRoom.objects.filter(members=user) # alternative: rooms = user.rooms.all() because of related_name='rooms' in ChatRoom model
+    # alternative: rooms = ChatRoom.objects.filter(members=user)
+    rooms = user.rooms.all() # works because of related_name='rooms' in ChatRoom model
     
     '''set the other_user field of private chat rooms to access the other user of the private chat room in the template'''
     for room in rooms:
@@ -76,3 +77,52 @@ def ChatRoomView(request, room_uid):
         'chat_messages': chat_messages,
     }
     return render(request, 'chat/pages/chat_room.html', context)
+
+@login_required
+def CreateGroupChatRoom(request):
+    user = request.user
+
+    if request.method == 'POST':
+        group_name = request.POST.get('group_name')
+        group_name = group_name.strip()
+
+        if group_name:
+            # check if this user already created a group by group_name
+            admin_of_groups = user.admin_of_rooms.all() # return all chatroom where this user is admin
+            for group in admin_of_groups:
+                if group_name.lower() == group.name.lower():
+                    messages.error(request, 'You already have a group by this name')
+                    return redirect('home')
+
+            # create the chat room and set admin, is_private=False mean its not a private chat between two user
+            group = ChatRoom.objects.create(name=group_name, is_private=False, admin=user)
+            group.members.add(user)
+            group.save()
+
+            messages.success(request, 'Group Create Successful')
+            return redirect('group_profile', group_uid=group.uid)
+        else:
+            messages.error(request, 'Please provide a name')
+    return redirect('home')
+
+@login_required
+def GroupProfile(request, group_uid):
+    user = request.user
+    chat_room = ChatRoom.objects.filter(uid=group_uid).first()
+    
+    # check if the room exists
+    if not chat_room:
+        messages.error(request, 'Chat Group not found. Invalid Group.')
+        return redirect('home')
+    
+    # check if the user is a member of the room
+    group_members = chat_room.members.all()
+    if not user in group_members:
+        messages.error(request, 'You are not a member of this Group.')
+        return redirect('home')
+    
+    context = {
+        'chat_group': chat_room,
+        'chat_group_members': group_members,
+    }
+    return render(request, 'chat/pages/group_profile.html', context)

@@ -41,11 +41,11 @@ def UserRegister(request):
 
             login(request, user)
             messages.success(request, 'Registration successful!')
-            return redirect('profile', username=user.username)
+            return redirect('home')
         else:
             messages.error(request, 'Registration failed. Please correct the below errors.')
             for error in form.errors:
-                messages.error(request, f'{error}: {form.errors[error][0]}')
+                messages.error(request, f'{form.errors[error][0]}')
     
     form = CustomUserCreationForm()
     return render(request, 'chat/pages/register.html', {'form': form})

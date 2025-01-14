@@ -1,0 +1,41 @@
+
+<!-- Group Members List -->
+<section class="max-w-md mx-auto space-y-3 mt-8">
+    <h3 class="text-lg font-semibold">Group Members</h3>
+    <ul class="space-y-2">
+
+        {% for member in chat_group_members %}
+            <!-- Start: Member Item -->
+            <li class="flex items-center justify-between bg-slate-700 p-3 rounded-lg">
+                <div class="flex items-center">
+                    <img src="{{ member.profile.avatar.url }}" alt="Member Avatar" class="w-10 h-10 rounded-full bg-gray-600 mr-3">
+                    <div>
+                        <p class="font-medium">
+                            <a href="{% url "profile" member.username %}">
+                                {{ member.profile.full_name }}
+                                {% if member == chat_group.admin %}
+                                    <span class="text-xs mx-2 text-gray-400">(admin)</span>
+                                {% endif %}
+                            </a>
+                        </p>
+                        
+                        <p class="text-sm text-gray-400">
+                            {% if member.profile.is_online %}
+                                Online
+                            {% else %}
+                                active {{ member.profile.last_seen|timesince }} ago 
+                            {% endif %}
+                        </p>
+
+                    </div>
+                </div>
+
+                {% if request.user == chat_group.admin %}
+                    <button class="text-gray-400 hover:text-red-700">Remove</button>
+                {% endif %}
+            </li>
+            <!-- End: Member Item -->
+        {% endfor %}
+         
+    </ul>
+</section>

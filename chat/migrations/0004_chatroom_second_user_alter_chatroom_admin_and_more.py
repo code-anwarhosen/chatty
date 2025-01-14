@@ -27,6 +27,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='avatar',
-            field=models.ImageField(blank=True, default='chat/users/default/user.png', null=True, upload_to=chat.models.avatar_path),
+            field=models.ImageField(blank=True, default='chat/users/default/user.png', null=True, upload_to=chat.models.user_avatar_path),
         ),
     ]

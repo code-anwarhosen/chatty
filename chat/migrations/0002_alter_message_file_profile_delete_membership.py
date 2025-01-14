@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('uid', models.UUIDField(blank=True, unique=True)),
-                ('avatar', models.ImageField(blank=True, null=True, upload_to=chat.models.avatar_path)),
+                ('avatar', models.ImageField(blank=True, null=True, upload_to=chat.models.user_avatar_path)),
                 ('bio', models.TextField(blank=True, null=True)),
                 ('is_online', models.BooleanField(default=False)),
                 ('last_seen', models.DateTimeField(auto_now=True)),

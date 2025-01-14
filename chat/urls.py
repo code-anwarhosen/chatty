@@ -1,6 +1,6 @@
 from django.urls import path
 from chat.views.auth import UserLogin, UserLogout, UserRegister, UserProfile, EditUserProfile, UpdateUserProfile, ChangeUserPassword
-from chat.views.chat import Home, UserSearchList, InitiatePrivateChat, ChatRoomView
+from chat.views.chat import Home, UserSearchList, InitiatePrivateChat, ChatRoomView, CreateGroupChatRoom, GroupProfile
 
 urlpatterns = [
     path('auth/login/', UserLogin, name='login'),
@@ -15,4 +15,7 @@ urlpatterns = [
     path('user-list/', UserSearchList, name='user_list'),
     path('private-chat/<str:username>/', InitiatePrivateChat, name='private_room'),
     path('room/<str:room_uid>/', ChatRoomView, name='chatroom'),
+
+    path('user/group/create/', CreateGroupChatRoom, name='create_group'),
+    path('user/group/details/<str:group_uid>/', GroupProfile, name='group_profile')
 ]

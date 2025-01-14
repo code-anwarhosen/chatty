@@ -4,35 +4,37 @@
 <header class="fixed top-0 w-full z-50 bg-slate-900 px-4 py-2 flex items-center justify-between">
 
 {% if chat_room.is_private %}
-    <div class="flex items-center space-x-3">
-        <a href="{% url "profile" chat_room.second_user %}" class="focus:outline-none">
-            <img src="{{ chat_room.second_user.profile.avatar.url }}" alt="Chat User" class="w-10 h-10 rounded-full" />
-        </a>
-        <div>
-            <p class="text-lg font-semibold">{{ chat_room.second_user.profile.full_name }}</p>
-            
-            <!-- user online status  -->
-            <p class="text-sm text-gray-400">
-                {% if chat_room.second_user.profile.is_online %}
-                    Online
-                {% else %}
-                    active {{ chat_room.second_user.profile.last_seen|timesince }} ago 
-                {% endif %}
-            </p>
-        </div>
-    </div>
 
+    <a href="{% url "profile" chat_room.second_user %}" class="focus:outline-none">
+        <div class="flex items-center space-x-3">
+            <img src="{{ chat_room.second_user.profile.avatar.url }}" alt="Chat User" class="w-10 h-10 rounded-full" />
+            <div>
+                <p class="text-lg font-semibold">{{ chat_room.second_user.profile.full_name }}</p>
+                
+                <!-- user online status  -->
+                <p class="text-sm text-gray-400">
+                    {% if chat_room.second_user.profile.is_online %}
+                    Online
+                    {% else %}
+                    active {{ chat_room.second_user.profile.last_seen|timesince }} ago 
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </a>
+        
 {% else %}
 
-    <div class="flex items-center space-x-3">
-        <a href="#" class="focus:outline-none">
-            <img src="{% static 'chat/icons/avatar.png' %}" alt="Chat User" class="w-10 h-10 rounded-full" />
-        </a>
-        <div>
-            <p class="text-lg font-semibold">{{ chat_room.name }} <span class="text-sm text-green-400">(3 members)</span></p>
-            <p class="text-sm text-green-400">2 Online</p>
+    <a href="{% url "group_profile" chat_room.uid %}" class="focus:outline-none">
+        <div class="flex items-center space-x-3">
+            <img src="{{ chat_room.avatar.url }}" alt="Chat User" class="w-10 h-10 rounded-full" />
+            <div>
+                <p class="text-lg font-semibold">{{ chat_room.name }}</p>
+                <p class="text-sm text-gray-400">{{ chat_room.member_count }} member | Online</p>
+            </div>
         </div>
-    </div>
+    </a>
+
 {% endif %}
 
 <a href="{% url "home" %}" class="text-gray-400 hover:text-white focus:outline-none" title="Exit Chat">
