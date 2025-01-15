@@ -53,6 +53,12 @@ searchInput.addEventListener('input', () => {
 // Function to populate the modal with users
 function populateUserList(users) {
     userListContainer.innerHTML = '';  // Clear current list
+
+    if (users.length === 0) {
+        userListContainer.innerHTML = `<p class="text-gray-400 text-center">No users found.</p>`;
+        return;
+    }
+
     users.forEach(user => {
         const userItem = document.createElement('div');
         userItem.classList.add('user-item');
