@@ -1,0 +1,36 @@
+{% load static %}
+
+<!-- START: Add Members Modal (Initially Hidden) -->
+<div id="add-members-modal" class="hidden z-50 px-4 fixed inset-0 bg-black bg-opacity-80 items-center justify-center">
+    <div class="bg-slate-800 p-6 rounded-lg shadow-lg max-w-lg w-full">
+        <h2 class="text-xl font-bold text-teal-400 mb-4">Add Members</h2>
+        
+        <!-- Search Bar -->
+        <div class="mb-4">
+            <input type="text" id="member-search-input" placeholder="Search users..." 
+                   class="w-full px-4 py-2 rounded-[40px] bg-slate-700 text-gray-300 border-2 border-slate-600 focus:outline-none focus:ring-1 focus:ring-teal-700">
+        </div>
+
+        <!-- User List -->
+        <div id="add-member-list" class="max-h-64 overflow-y-auto">
+            <!-- Example User -->
+            <!-- <div class="flex items-center justify-between py-2 border-b border-slate-600">
+                <div class="flex items-center space-x-3">
+                    <img src="/static/chat/icons/user.png" alt="Avatar" class="w-10 h-10 rounded-full">
+                    <p class="text-gray-300">John Doe</p>
+                </div>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-teal-900">
+                    <a href="">Add</a>
+                </button>
+            </div> -->
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-end mt-4">
+            <button onclick="closeAddMembersModal()" class="px-4 py-2 bg-gray-700 text-white rounded-lg mr-2 hover:bg-gray-900">Cancel</button>
+        </div>
+    </div>
+</div>
+
+{{ chat_group.uid|json_script:"chat_group_uid" }} <!-- Called from fetch_add_group_member.js -->
+<script src="{% static 'chat/js/fetch_add_group_member.js' %}"></script>

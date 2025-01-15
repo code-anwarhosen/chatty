@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from chat.models import Profile, ChatRoom, Message
 from django.contrib.auth.models import User
+import json
 
 @login_required
 def Home(request):
@@ -126,3 +127,49 @@ def GroupProfile(request, group_uid):
         'chat_group_members': group_members,
     }
     return render(request, 'chat/pages/group_profile.html', context)
+
+@login_required
+def AddMemberSearchList(request, chatgroup_uid):
+    '''
+    In the Group Profile page when user click on the add member
+    this view is called by javascript fetch
+    get all users list excluding current user and already added member
+    return a list by JsonResponse to be able to populate the add member list with js
+    '''
+    chat_group = ChatRoom.objects.filter(uid=chatgroup_uid).first()
+    already_members = chat_group.members.all()
+    
+    users = User.objects.exclude(id__in=already_members)
+    add_member_user_list = list()  # Convert the queryset to a list of dictionaries
+
+    for user in users:
+        add_member_user_list.append({
+            'username': user.username,
+            'full_name': user.profile.full_name,
+            'avatar': user.profile.avatar.url
+        })
+    return JsonResponse({'users': add_member_user_list})
+
+@login_required
+def AddGroupMember(request):
+    """Add member to a group"""
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        chatgroup_uid = data.get('chatgroup_uid')
+    
+        try:
+            user = User.objects.get(username=username)
+            chat_group = ChatRoom.objects.get(uid=chatgroup_uid)
+            chat_group.members.add(user)
+            chat_group.save()
+            return JsonResponse({'success': True})
+
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User not found'})
+        except ChatRoom.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Chat group not found'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})

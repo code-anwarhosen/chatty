@@ -103,6 +103,9 @@ class ChatRoom(models.Model):
         if not self.uid:
             self.uid = str(uuid.uuid4())
 
+        if self.admin:
+            self.is_private = False
+
         if self.avatar and self._avatar_needs_compression():
             if self.avatar.name != default_group_avatar:
                 self.avatar = compress_avatar(self.avatar)
