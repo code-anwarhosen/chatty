@@ -10,6 +10,14 @@ let UserList = [];
 
 // Function to fetch the user list from Django when the input field is clicked
 searchBar.addEventListener('click', async () => {
+    // make open the search modal
+    searchModal.classList.remove('hidden');
+    searchModal.classList.add('flex');
+
+    // focus and reset value for good ux
+    searchInput.focus();
+    searchInput.value = '';
+    
     // Check if the user list is already fetched to avoid repeated requests
     if (UserList.length === 0) {
         try {
@@ -21,14 +29,6 @@ searchBar.addEventListener('click', async () => {
             console.error('Error fetching user list:', error);
         }
     }
-
-    // make open the search modal
-    searchModal.classList.remove('hidden');
-    searchModal.classList.add('flex');
-
-    // focus and reset value for good ux
-    searchInput.focus();
-    searchInput.value = '';
 });
 
 closeModal.addEventListener('click', () => {

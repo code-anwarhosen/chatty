@@ -16,6 +16,10 @@ const chatGroupUid = JSON.parse(document.getElementById('chat_group_uid').textCo
 
 // Fetch users when the modal is opened
 addMemberBtn.addEventListener("click", async () => {
+    // Open add member modal
+    addMembersModal.classList.remove('hidden');
+    addMembersModal.classList.add('flex');
+    
     try {
         const res = await fetch(`/group/add-member-user-list/${chatGroupUid}/`);
         if (!res.ok) {
@@ -28,10 +32,6 @@ addMemberBtn.addEventListener("click", async () => {
         console.error("Error fetching users:", error);
         memberListContainer.innerHTML = `<p class="text-red-500 text-center">Failed to load users.</p>`;
     }
-
-    // Open add member modal
-    addMembersModal.classList.remove('hidden');
-    addMembersModal.classList.add('flex');
 });
 
 // Function to populate user list
