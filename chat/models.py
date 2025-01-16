@@ -110,7 +110,7 @@ class ChatRoom(models.Model):
             if self.avatar.name != default_group_avatar:
                 self.avatar = compress_avatar(self.avatar)
 
-        if not self.avatar:
+        if not self.avatar and not self.is_private:
             self.avatar = default_group_avatar
         super().save(*args, **kwargs)
 
