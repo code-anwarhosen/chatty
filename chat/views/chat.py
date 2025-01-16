@@ -173,3 +173,82 @@ def AddGroupMember(request):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+@login_required
+def RemoveGroupMember(request, group_uid, username):
+    group = ChatRoom.objects.filter(uid=group_uid).first()
+    user = User.objects.filter(username=username).first()
+
+    # make sure request is from group admin
+    if user != group.admin:
+        messages.info(request, "You're not ad admin of this group.")
+        return redirect('group_profile', group_uid=group_uid)
+
+    # make sure doesn't remove admin himself, he can delete the group instead
+    if user == group.admin:
+        messages.info(request, "You can't remove the group admin.")
+        return redirect('group_profile', group_uid=group_uid)
+        
+    if user and group and user:
+        group.members.remove(user)
+        group.save()
+
+        messages.success(request, f'Removed {username} from this group')
+    else:
+        messages.error(request, 'Something went wrong!')
+    return redirect('group_profile', group_uid=group_uid)
+
+@login_required
+def LeaveGroup(request, group_uid):
+    user = request.user
+    group = ChatRoom.objects.filter(uid=group_uid).first()
+    members = group.members.all()
+    
+    # if admin leaving group, assain a new admin
+    if user == group.admin:
+        if group.member_count > 1:
+            for member in members:
+                if member != user:
+                    group.admin = member
+                    group.members.remove(user)
+                    group.save()
+                    messages.success(request, f"You took leave from {group.name} group")
+                    return redirect('home')
+        else:
+            # if admin is the only user, then delete
+            return redirect('delete_room', room_uid=group.uid)
+
+    # check if requested user is in the members list or not
+    elif group and user in members:
+        group.members.remove(user)
+        group.save()
+
+        messages.success(request, f"You took leave from {group.name} group")
+        return redirect('home')
+    else:
+        messages.error(request, 'Error while leaving group')
+    return redirect('group_profile', group_uid=group_uid)
+
+@login_required
+def DeleteChatRoom(request, room_uid):
+    user = request.user
+    chat_room = ChatRoom.objects.filter(uid=room_uid).first()
+
+    if not chat_room:
+        messages.error(request, 'Chat Room does not exist')
+        return redirect('home')
+
+    # check if user is a member of the room or not
+    if not user in chat_room.members.all():
+        messages.info(request, "You're not a member of this group")
+        return redirect('home')
+    
+    if chat_room.is_private:
+        messages.success(request, 'private chat delete not implemented yet')
+    else:
+        if user == chat_room.admin:
+            chat_room.delete()
+            messages.success(request, 'Group delete successful')
+        else:
+            messages.error(request, "You can't delete this group")
+    return redirect('home')

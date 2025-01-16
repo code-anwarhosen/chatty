@@ -29,7 +29,7 @@
                 </a>
 
                 {% if request.user == chat_group.admin %}
-                    <button class="text-gray-400 hover:text-red-700">Remove</button>
+                    <button onclick="removeMember('{{ chat_group.uid }}', '{{ member.username }}')" class="text-gray-400 hover:text-red-700">Remove</button>
                 {% endif %}
             </li>
             <!-- End: Member Item -->
@@ -37,3 +37,16 @@
          
     </ul>
 </section>
+
+<script>
+    function removeMember(groupUid, username) {
+        // Create a confirmation alert
+        const confirmation = confirm(`You're about to remove ${username} from this group.`);
+        
+        // If user confirms, redirect to the specified location
+        if (confirmation) {
+            window.location.href = `/user/group/remove-member/${groupUid}/${username}/`;
+        }
+        // If user cancels, do nothing
+    }
+</script>

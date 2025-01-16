@@ -39,7 +39,8 @@ services:
     restart: unless-stopped
     environment:
       - DEBUG=False
-      - HOST_IP=192.168.1.95
+      - HOST_IP=192.168.1.99
+      - CSRF_TRUSTED_ORIGINS=https://poke.anwarhosen.xyz
       - DJANGO_SECRET_KEY=django-insecure-t2p2d0psa55mhz8j&v-6_y@%i(vageo$r0^*g=(3dr^yop1o)*
       - DATABASE_URL=postgres://pokeuser:Ksnj237&Y87#T$474@postgres:5432/pokedb
       - REDIS_URL=redis://redis:6379/0

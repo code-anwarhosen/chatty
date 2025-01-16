@@ -13,6 +13,8 @@ ALLOWED_HOSTS = [
     'localhost',
     env('HOST_IP')
 ]
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = [env('CSRF_TRUSTED_ORIGINS')]
 
 INSTALLED_APPS = [
     'daphne',
