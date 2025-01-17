@@ -32,5 +32,5 @@
     </div>
 </div>
 
-{{ chat_group.uid|json_script:"chat_group_uid" }} <!-- Called from fetch_add_group_member.js -->
-<script src="{% static 'chat/js/fetch_add_group_member.js' %}"></script>
+{{ chat_group.uid|json_script:"chat_group_uid" }} <!-- Called from GroupAddMember.js -->
+<script src="{% static 'chat/js/group/GroupAddMember.js' %}"></script>

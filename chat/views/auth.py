@@ -61,7 +61,7 @@ def UserProfile(request, username):
     context = {
         'profile': user
     }
-    return render(request, 'chat/pages/profile.html', context)
+    return render(request, 'chat/pages/UserProfile.html', context)
 
 @login_required
 def EditUserProfile(request):
@@ -69,7 +69,7 @@ def EditUserProfile(request):
     context = {
         'passForm': passwordChangeForm
     }
-    return render(request, 'chat/pages/edit_profile.html', context)
+    return render(request, 'chat/pages/EditUserProfile.html', context)
 
 
 @login_required

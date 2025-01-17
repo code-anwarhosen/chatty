@@ -1,15 +1,14 @@
 {% load static %}
 
 <div class="h-screen flex flex-col">
-    {% include "chat/chatroom/chatroom_header.html" %}
-    {% include "chat/chatroom/chatroom_body.html" %}
-    {% include "chat/chatroom/chatroom_footer.html" %}
+    {% include "chat/chatroom/ChatHeader.html" %}
+    {% include "chat/chatroom/ChatMessages.html" %}
+    {% include "chat/chatroom/ChatInput.html" %}
 
-    <!-- uid for chat_socket.js and username for chat_text_msg_html.js -->
-    {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from chat_socket.js -->
-    {{ request.user.username|json_script:"current_user_name" }} <!-- Called from chat_text_msg.js -->
+    {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from ChatSocket.js -->
+    {{ request.user.username|json_script:"current_user_name" }} <!-- Called from ChatTextMsgHTML.js -->
     
-    <script src="{% static 'chat/js/chatroom/chat_socket.js' %}"></script>
-    <script src="{% static 'chat/js/chatroom/chat_text_msg_html.js' %}"></script>
-    <script src="{% static 'chat/js/chatroom/chat_script.js' %}"></script>
+    <script src="{% static 'chat/js/chatroom/ChatSocket.js' %}"></script>
+    <script src="{% static 'chat/js/chatroom/ChatTextMsgHTML.js' %}"></script>
+    <script src="{% static 'chat/js/chatroom/ChatScript.js' %}"></script>
 </div>

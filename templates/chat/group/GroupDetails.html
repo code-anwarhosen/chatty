@@ -18,57 +18,33 @@
     <div class="p-6 rounded-lg mb-6 flex flex-col items-center">
         <img src="{{ chat_group.avatar.url }}" alt="User Avatar" class="rounded-full bg-gray-600 mb-4" style="width: 200px; height: 200px;">
         <h2 class="text-2xl font-semibold">{{ chat_group.name }}</h2>
-        
+        <button class="bg-slate-700 px-4 font-bold rounded-lg mb-3 mt-1 hover:bg-blue-500">Edit</button>
+
         <!-- user online status  -->
         <p class="text-sm text-gray-400">{{ chat_group.member_count }} member | online</p>
-        <hr style="border: none; height: 2px; background-color: rgb(227, 220, 225); width: 70%; margin-top: 20px;">
-        
+        <!-- <hr style="border: none; height: 2px; background-color: rgb(227, 220, 225); width: 70%; margin-top: 20px;"> -->
     </div>
 
 
      <!-- Action Buttons -->
     <div class="space-y-3 max-w-sm mx-auto">
+        <button id="add-member-btn" class="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-medium">
+            + Add Member
+        </button>
+        <button onclick="leaveGroup('{{ chat_group.uid }}')" class="w-full px-4 py-2 bg-slate-700 hover:bg-gray-600 rounded-lg text-white font-medium">
+            Leave Group
+        </button>
+
         {% if request.user == chat_group.admin %}
-            <button id="add-member-btn" class="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-medium">
-                + Add Member
-            </button>
             <button onclick="deleteGroup('{{ chat_group.uid }}')" class="w-full px-4 py-2 bg-slate-700 hover:bg-gray-600 rounded-lg text-white font-medium">
                 Delete Group
             </button>
         {% endif %}
-        
-        <button onclick="leaveGroup('{{ chat_group.uid }}')" class="w-full px-4 py-2 bg-slate-700 hover:bg-gray-600 rounded-lg text-white font-medium">
-            Leave Group
-        </button>
     </div>
 
-    {% include "chat/group/group_member_list.html" %}
-
+    {% include "chat/group/MemberList.html" %}
 </main>
 <!-- End: User Details Content Section -->
 
-{% include "chat/group/group_add_member_modal.html" %}
-
-<script>
-    function leaveGroup(groupUid) {
-        // Create a confirmation alert
-        const confirmation = confirm(`You're about to leave this group.`);
-        
-        // If user confirms, redirect to the specified location
-        if (confirmation) {
-            window.location.href = `/user/group/leave-group/${groupUid}/`;
-        }
-        // If user cancels, do nothing
-    }
-
-    function deleteGroup(groupUid) {
-        // Create a confirmation alert
-        const confirmation = confirm(`You're about to delete this group.`);
-        
-        // If user confirms, redirect to the specified location
-        if (confirmation) {
-            window.location.href = `/user/group/delete-room/${groupUid}/`;
-        }
-        // If user cancels, do nothing
-    }
-</script>
+{% include "chat/group/AddMemberModal.html" %}
+<script src="{% static 'chat/js/group/GroupScript.js' %}"></script>

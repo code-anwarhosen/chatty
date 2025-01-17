@@ -11,10 +11,13 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    env('HOST_IP')
+    env('HOST')
 ]
 if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = [env('CSRF_TRUSTED_ORIGINS')]
+    CSRF_TRUSTED_ORIGINS = [
+        f'http://{env('HOST')}'
+        f'https://{env('HOST')}'
+    ]
 
 INSTALLED_APPS = [
     'daphne',

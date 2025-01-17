@@ -77,7 +77,7 @@ def ChatRoomView(request, room_uid):
         'chat_room': chat_room,
         'chat_messages': chat_messages,
     }
-    return render(request, 'chat/pages/chat_room.html', context)
+    return render(request, 'chat/pages/ChatRoom.html', context)
 
 @login_required
 def CreateGroupChatRoom(request):
@@ -126,7 +126,7 @@ def GroupProfile(request, group_uid):
         'chat_group': chat_room,
         'chat_group_members': group_members,
     }
-    return render(request, 'chat/pages/group_profile.html', context)
+    return render(request, 'chat/pages/GroupProfile.html', context)
 
 @login_required
 def AddMemberSearchList(request, chatgroup_uid):
@@ -180,8 +180,8 @@ def RemoveGroupMember(request, group_uid, username):
     user = User.objects.filter(username=username).first()
 
     # make sure request is from group admin
-    if user != group.admin:
-        messages.info(request, "You're not ad admin of this group.")
+    if request.user != group.admin:
+        messages.info(request, "You're not a admin of this group.")
         return redirect('group_profile', group_uid=group_uid)
 
     # make sure doesn't remove admin himself, he can delete the group instead
@@ -189,10 +189,9 @@ def RemoveGroupMember(request, group_uid, username):
         messages.info(request, "You can't remove the group admin.")
         return redirect('group_profile', group_uid=group_uid)
         
-    if user and group and user:
+    if user and group:
         group.members.remove(user)
         group.save()
-
         messages.success(request, f'Removed {username} from this group')
     else:
         messages.error(request, 'Something went wrong!')

@@ -3,7 +3,7 @@
 <!-- START: ChatRoom List Section -->
 <div class="container mx-auto px-4 py-2 max-w-4xl">
 
-    {% include "chat/home/header_home_chat_list.html" %}
+    {% include "chat/home/ChatListHeader.html" %}
     
     <div id="user-list" class="grid grid-cols-1 md:grid-cols-2 gap-1">
     {% for room in rooms %}
@@ -86,4 +86,5 @@
 </div>
 <!-- END: ChatRoom List Section -->
 
-{% include "chat/home/home_search_modal.html" %}
+{% include "chat/home/SearchUserModal.html" %}
+<script src="{% static 'chat/js/home/HomeScript.js' %}"></script>
