@@ -5,8 +5,8 @@ from chat.views.auth import (
 )
 from chat.views.chat import (
     Home, UserSearchList, InitiatePrivateChat, ChatRoomView, 
-    CreateGroupChatRoom, GroupProfile, AddGroupMember, AddMemberSearchList,
-    RemoveGroupMember, LeaveGroup, DeleteChatRoom
+    CreateGroupChatRoom, GroupProfile, UpdateGroupProfile, AddGroupMember,
+    AddMemberSearchList, RemoveGroupMember, LeaveGroup, DeleteChatRoom,
 )
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('user/group/create/', CreateGroupChatRoom, name='create_group'),
     path('user/group/details/<str:group_uid>/', GroupProfile, name='group_profile'),
+    path('user/group/update/<str:group_uid>/', UpdateGroupProfile, name='update_group'),
     path('group/add-member-user-list/<str:chatgroup_uid>/', AddMemberSearchList), # js fetch call to list user to add member
     path('user/group/add-member/', AddGroupMember), # js fetch call from group page modal
     path('user/group/remove-member/<str:group_uid>/<str:username>/', RemoveGroupMember, name='remove_member'),

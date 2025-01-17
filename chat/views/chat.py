@@ -129,6 +129,26 @@ def GroupProfile(request, group_uid):
     return render(request, 'chat/pages/GroupProfile.html', context)
 
 @login_required
+def UpdateGroupProfile(request, group_uid):
+    group = ChatRoom.objects.filter(uid=group_uid).first()
+
+    if not group:
+        messages.error("Group doesn't exist")
+        return redirect('home')
+
+    if request.method == 'POST':
+        name = request.POST.get('group_name')
+        avatar = request.FILES.get('group_avatar')
+
+        if str(name).strip():
+            group.name = name
+        if avatar:
+            group.avatar = avatar
+        group.save()
+        messages.success(request, "Group updated successfully!")
+    return redirect('group_profile', group_uid=group_uid)
+
+@login_required
 def AddMemberSearchList(request, chatgroup_uid):
     '''
     In the Group Profile page when user click on the add member

@@ -89,7 +89,8 @@ def UpdateUserProfile(request):
 
         # Update Profile model fields
         bio = request.POST.get('bio')
-        if bio is not None: profile.bio = bio
+        if bio is not None:
+            profile.bio = bio
 
         avatar = request.FILES.get('avatar')
         if avatar:
@@ -97,9 +98,7 @@ def UpdateUserProfile(request):
         profile.save()
 
         messages.success(request, "Profile updated successfully!")
-        return redirect('profile', username=user.username)  # Redirect to profile page after updating
-
-    return render(request, 'profile/update_profile.html')
+    return redirect('profile', username=user.username)  # Redirect to profile page after updating
 
 @login_required
 def ChangeUserPassword(request):
