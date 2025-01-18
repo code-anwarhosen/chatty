@@ -31,7 +31,7 @@ function insertChatMessage(message) {
         const baseName = filePath.split('/').pop();
         
         messageContentHTML = `
-            <a href="${message.content}" download class="block bg-gray-800 text-white p-2 rounded-lg mt-1 underline">
+            <a href="${message.content}" download class="block bg-gray-800 text-white p-2 rounded-lg mt-1 underline break-words">
                 <img class="max-h-[30px] place-self-center" src="/static/chat/icons/download.png" alt="download">
                 ${baseName}</a>`;
     }
