@@ -34,7 +34,7 @@
         
         {% elif message.type == 'file' %}
             <a href="{{ message.file.url }}" download class="block bg-gray-800 text-white p-2 rounded-lg mt-1 underline">
-                <img class="max-h-[30px] place-self-center" src="{% static 'chat/icons/download.png' %}" alt="download">
+                <img class="max-h-[30px] place-self-center overflow-y-hidden" src="{% static 'chat/icons/download.png' %}" alt="download">
                 {{ message.filename }}
             </a>
         {% endif %}
