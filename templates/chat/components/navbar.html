@@ -12,22 +12,34 @@
         <!-- Project Name -->
         <!-- <a href="{% url "home" %}" class="text-2xl font-bold text-teal-400">Poke</a> -->
 
-        <!-- User Profile Icon -->
-        <div class="relative">
-            <img id="profile-btn" src="{{ user.profile.avatar.url }}" alt="User Profile" class="w-10 h-10 rounded-full border-1 border-teal-400 cursor-pointer">
-            <!-- Profile Dropdown -->
-            <div id="profile-dropdown" class="z-50 absolute right-4 -mt-0 w-40 bg-slate-700 border border-slate-600 rounded-md hidden opacity-0 shadow-lg">
-                
-                {% if user.is_authenticated and user.is_staff %}
-                    <a href="/admin/" class="block px-4 py-2 text-sm text-gray-300 bg-slate-600">Hello, {{ user.profile.full_name }}</a>
-                {% else %}
-                    <p class="block px-4 py-2 text-sm text-gray-300 bg-slate-600">Hi, {{ user.profile.full_name }}</p>
-                {% endif %}
-                
-                <a href="{% url "profile" user %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-600">Your Profile</a>
-                <a href="{% url "logout" %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-600">Logout</a>
+        <div class="flex space-x-4 items-center">
+            <div class="relative">
+                <img src="{% static 'chat/icons/notification.png' %}" alt="Notification" 
+                     class="w-6 h-6 rounded-full border-1 border-teal-400 cursor-pointer">
+                <!-- Badge -->
+                <p class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    0
+                </p>
+            </div>
+
+            <!-- User Profile Icon -->
+            <div class="relative">
+                <img id="profile-btn" src="{{ user.profile.avatar.url }}" alt="User Profile" class="w-10 h-10 rounded-full border-1 border-teal-400 cursor-pointer">
+                <!-- Profile Dropdown -->
+                <div id="profile-dropdown" class="z-50 absolute right-4 -mt-0 w-40 bg-slate-700 border border-slate-600 rounded-md hidden opacity-0 shadow-lg">
+                    
+                    {% if user.is_authenticated and user.is_staff %}
+                        <a href="/admin/" class="block px-4 py-2 text-sm text-gray-300 bg-slate-600">Hello, {{ user.profile.full_name }}</a>
+                    {% else %}
+                        <p class="block px-4 py-2 text-sm text-gray-300 bg-slate-600">Hi, {{ user.profile.full_name }}</p>
+                    {% endif %}
+                    
+                    <a href="{% url "profile" user %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-600">Your Profile</a>
+                    <a href="{% url "logout" %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-600">Logout</a>
+                </div>
             </div>
         </div>
+
     </div>
 </nav>
 

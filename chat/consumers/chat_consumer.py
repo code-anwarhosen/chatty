@@ -29,36 +29,39 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        message = data['message']
-        await self.save_message(message)
+        msgType = data['msgType']
+        message = data['content']
 
-        # Broadcast the message to the group
+        if msgType == 'text':
+            await self.save_message(message)
+
+        # Broadcast to the group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
-                'message': message,
-                'message_type': 'text' if message else 'image',
+                'type': 'sendMessage',
+                'msgType': msgType,
+                'content': message,
                 'author': self.user.username,
-                'avatar': self.profile.avatar.url
+                'avatar': self.profile.avatar.url,
             }
         )
     
-    @database_sync_to_async
-    def save_message(self, message):
-        room = ChatRoom.objects.get(uid=self.room_uid)
-        Message.objects.create(room=room, author=self.user, content=message)
-
-    async def chat_message(self, event):
-        message = event['message']
-        message_type = event['message_type']
+    async def sendMessage(self, event):
+        msg_type = event['msgType']
+        message = event['content']
         author = event['author']
         avatar = event['avatar']
 
         # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
-            'message': message,
-            'message_type': message_type,
+            'msgType': msg_type,
+            'content': message,
             'author': author,
             'avatar': avatar,
         }))
+    
+    @database_sync_to_async
+    def save_message(self, message):
+        room = ChatRoom.objects.get(uid=self.room_uid)
+        Message.objects.create(room=room, author=self.user, content=message)

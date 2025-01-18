@@ -4,7 +4,7 @@ from chat.views.auth import (
     EditUserProfile, UpdateUserProfile, ChangeUserPassword
 )
 from chat.views.chat import (
-    Home, UserSearchList, InitiatePrivateChat, ChatRoomView, 
+    Home, UserSearchList, InitiatePrivateChat, ChatRoomView, UploadChatFile,
     CreateGroupChatRoom, GroupProfile, UpdateGroupProfile, AddGroupMember,
     AddMemberSearchList, RemoveGroupMember, LeaveGroup, DeleteChatRoom,
 )
@@ -22,6 +22,7 @@ urlpatterns = [
     path('user-list/', UserSearchList), # js fetch call from home page search modal
     path('private-chat/<str:username>/', InitiatePrivateChat, name='private_room'),
     path('room/<str:room_uid>/', ChatRoomView, name='chatroom'),
+    path('chat/send-file/<str:room_uid>/', UploadChatFile),
 
     path('user/group/create/', CreateGroupChatRoom, name='create_group'),
     path('user/group/details/<str:group_uid>/', GroupProfile, name='group_profile'),

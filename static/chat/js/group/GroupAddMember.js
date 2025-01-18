@@ -78,11 +78,12 @@ function addUserToGroup(username, buttonElement) {
     };
 
     // Send POST request to the server
+    const CSRFToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     fetch('/user/group/add-member/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken() // Include CSRF token for Django
+            'X-CSRFToken': CSRFToken // Include CSRF token for Django
         },
         body: JSON.stringify(data)
     })
@@ -96,24 +97,10 @@ function addUserToGroup(username, buttonElement) {
             buttonElement.classList.remove("bg-blue-500", "hover:bg-teal-900");
             buttonElement.classList.add("bg-green-500", "cursor-not-allowed");
         } else {
-            console.log(`Failed to add ${username}: ${result.error}`);
+            console.log(`Failed to add ${username}`);
         }
     })
     .catch(error => {
-        console.error('Error adding user:', error);
         alert('An error occurred. Please try again.');
     });
-}
-
-// Function to get CSRF token from cookies
-function getCSRFToken() {
-    const name = 'csrftoken';
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith(name + '=')) {
-            return cookie.substring(name.length + 1);
-        }
-    }
-    return '';
 }

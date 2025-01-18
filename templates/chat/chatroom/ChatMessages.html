@@ -5,8 +5,6 @@
 {% for message in chat_messages reversed %}
 
 <!-- Text Message -->
-{% if message.type == 'text' %}
-
     {% if message.author == request.user %}
     <div class="flex items-start space-x-1 justify-end">
     {% else %}
@@ -16,11 +14,20 @@
 
         <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
         <div class="flex items-center justify-between">
-            <p class="text-sm font-medium">{{ message.author }}</p>
-            <span class="text-xs text-gray-400">{{ message.created_at|date:"h:i A" }}</span>
+            <p class="text-sm font-medium">{{ message.author.profile.full_name }}</p>
+            <span class="text-xs text-gray-400">{{ message.timestamp|date:"h:i A" }}</span>
         </div>
         
-        <p class="mt-1">{{ message.content }}</p>
+        {% if message.type == 'text' %}
+            <p class="mt-1">{{ message.content }}</p>
+
+        {% elif message.type == 'image' %}
+            <img 
+            src="{{ message.file.url }}" alt="Image" 
+            class="mt-1 rounded-lg cursor-pointer" 
+            onclick="viewMedia('{{ message.file.url }}')"/>
+
+        {% endif %}
 
         <!-- Hover Menu -->
         <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md">
@@ -31,53 +38,8 @@
 
         </div>
     </div>
-{% endif %}
-<!-- ------------------------------------------------------------------------- -->
 
-<!-- Sent Text Message -->
-<!-- <div class="flex items-start space-x-1 justify-end">
-    <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
-    <div class="flex items-center justify-between">
-        <p class="text-sm font-medium">You</p>
-        <span class="text-xs text-gray-400">10:32 AM</span>
-    </div>
-    <p class="mt-1">I'm doing great! How about you? Don't you worry about me. How's grandma. Hope she's doing well also. ket me know</p>
 
-    <!-- Hover Menu -->
-    <!-- <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md">
-        <button class="p-1">Reply</button>
-        <button class="p-1">Edit</button>
-        <button class="p-1">Delete</button>
-    </div>
-    </div>
-</div>  -->
-
-{% if message.type == 'image' %}
-<!-- Received Image Message -->
-<div class="flex items-start space-x-1">
-    <img src="https://via.placeholder.com/40" alt="User" class="w-8 h-8 rounded-full" />
-    <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
-    <div class="flex items-center justify-between">
-        <p class="text-sm font-medium">John Doe</p>
-        <span class="text-xs text-gray-400">10:35 AM</span>
-    </div>
-    <img 
-        src="https://via.placeholder.com/300"
-        alt="Received Image" 
-        class="mt-1 rounded-lg cursor-pointer" 
-        onclick="viewMedia('https://via.placeholder.com/300')" 
-    />
-
-    <!-- Hover Menu -->
-    <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md">
-        <button class="p-1">Reply</button>
-        <button class="p-1">Edit</button>
-        <button class="p-1">Delete</button>
-    </div>
-    </div>
-</div>
-{% endif %}
-<!-- ---------------------------------------------------------------------------------------- -->
 
 {% if message.type == 'video' %}
 <!-- Sent Video Message -->

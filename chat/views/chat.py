@@ -80,6 +80,27 @@ def ChatRoomView(request, room_uid):
     return render(request, 'chat/pages/ChatRoom.html', context)
 
 @login_required
+def UploadChatFile(request, room_uid):
+    user = request.user
+    room = ChatRoom.objects.filter(uid=room_uid).first()
+    
+    if not room:
+        return JsonResponse({'success': False, 'msg': 'Chat does not exists'})
+
+    if request.method == 'POST':
+        file = request.FILES.get('file')
+        if file:
+            msg = Message.objects.create(room=room, author=user)
+            msg.file = file
+            msg.save()
+            return JsonResponse({
+                'success': True,
+                'msgType': msg.type,
+                'content': msg.file.url,
+            })
+    return JsonResponse({'success': False, 'msg': 'Something went wrong'})
+
+@login_required
 def CreateGroupChatRoom(request):
     user = request.user
 

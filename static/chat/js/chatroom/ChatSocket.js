@@ -19,15 +19,14 @@ ChatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
 
     const msgObject = {
-        type: data.message_type,
+        type: data.msgType,
         author: data.author,
-        content: data.message,
+        content: data.content,
         avatar: data.avatar,
-        created_at: new Date().toISOString()
+        timestamp: currentTime(),
     };
-    if (msgObject.type === 'text') {
-        addTextMessageToChatBox(msgObject);
-    }
+
+    insertChatMessage(msgObject);
 };
 
 // Show an error message when an error occour
@@ -51,7 +50,8 @@ sendButton.addEventListener('click', function() {
 
     if (String(message).trim().length !== 0){
         ChatSocket.send(JSON.stringify({
-            'message': message
+            'msgType': 'text',
+            'content': message,
         }));
     }
     inputField.value = '';
@@ -64,3 +64,14 @@ inputField.addEventListener('keydown', function(e) {
         sendButton.click();
     }
 });
+
+
+// Utility function to return current time like 12:15 PM
+function currentTime() {
+    const datetime = new Date().toISOString();
+    const date = new Date(datetime);
+    const hours = date.getHours() % 12 || 12;
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+    return `${hours}:${minutes} ${ampm}`;
+}

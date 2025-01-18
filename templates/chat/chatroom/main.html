@@ -9,6 +9,7 @@
     {{ request.user.username|json_script:"current_user_name" }} <!-- Called from ChatTextMsgHTML.js -->
     
     <script src="{% static 'chat/js/chatroom/ChatSocket.js' %}"></script>
-    <script src="{% static 'chat/js/chatroom/ChatTextMsgHTML.js' %}"></script>
     <script src="{% static 'chat/js/chatroom/ChatScript.js' %}"></script>
+
+    <script src="{% static 'chat/js/chatroom/insertChatMsgHTML.js' %}"></script>
 </div>

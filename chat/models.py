@@ -127,23 +127,32 @@ class ChatRoom(models.Model):
         return f"Group: {self.name}"
     
 class Message(models.Model):
-    MESSAGE_TYPE_CHOICES = [
-        ('text', 'Text'),
-        ('image', 'Image'),
-        ('file', 'File'),
-    ]
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='messages') # access all messages of a room by room.messages.all() that means if a room name is 'room1' then room1.messages.all() will return all messages of room1
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages') # access all messages sent by a user by user.sent_messages.all() that means if a username is anwar then anwar.sent_messages.all() will return all messages sent by anwar
     content = models.CharField(max_length=300, blank=True, null=True)
     file = models.FileField(upload_to=chat_files_path, blank=True, null=True)
-    type = models.CharField(max_length=10, choices=MESSAGE_TYPE_CHOICES, default='text')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    type = models.CharField(max_length=10, default='text')
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('-created_at',)
+        ordering = ('-timestamp',)
+
+    def save(self, *args, **kwargs):
+        if self.file:
+            filename = self.file.name.lower()
+            if filename.endswith(('.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp')):
+                self.type = 'image'
+            elif filename.endswith(('.mp4', '.webm')):
+                self.type = 'video'
+            elif filename.endswith(('.mp3', '.wav', '.aac', '.ogg', '.m4a')):
+                self.type = 'audio'
+            else:
+                self.type = 'file'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         if self.type == 'text':
             return f"{self.author.username}: {self.content[:30]}"
-        return f"{self.author.username}: {self.type} message"
+        
+        filename = os.path.basename(self.file.name)
+        return f"{self.author.username}: {filename}"
