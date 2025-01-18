@@ -134,6 +134,12 @@ class Message(models.Model):
     type = models.CharField(max_length=10, default='text')
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def filename(self):
+        if self.file:
+            return os.path.basename(self.file.name)
+        return None
+        
     class Meta:
         ordering = ('-timestamp',)
 
@@ -154,5 +160,4 @@ class Message(models.Model):
         if self.type == 'text':
             return f"{self.author.username}: {self.content[:30]}"
         
-        filename = os.path.basename(self.file.name)
-        return f"{self.author.username}: {filename}"
+        return f"{self.author.username}: {self.filename}"

@@ -18,16 +18,17 @@
     </div>
 
     <!-- Progress Bar -->
-    <div id="upload-progress" class="hidden w-full bg-gray-700 rounded-lg mt-2">
-        <div id="upload-progress-bar" class="bg-blue-500 h-2 rounded-lg" style="width: 0%;"></div>
-    </div>
+    <div id="progress-bar-container" class="w-full bg-gray-700 rounded-lg h-2 mt-2 hidden">
+        <div id="progress-bar" class="bg-blue-500 h-full rounded-lg transition-all"></div>
+    </div>    
 </footer>
 <!-- END: Message Input Section -->
 
 
 <script>
     async function handleFileUpload(event) {
-        const file = event.target.files[0];
+        const fileInput = event.target;
+        const file = fileInput.files[0];
         if (!file) return;
 
         // Validate file size
@@ -37,45 +38,58 @@
             return;
         }
 
-        // Show progress bar
-        const progressBar = document.getElementById('upload-progress');
-        const progressFill = document.getElementById('upload-progress-bar');
-        progressBar.classList.remove('hidden');
-        progressFill.style.width = '25%';
+        const url = '/chat/send-file/{{ chat_room.uid }}/';
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        // Prepare form data
-        const formData = new FormData();
-        formData.append('file', file);
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const progressBar = document.getElementById('progress-bar');
 
-        // Send POST request
-        const roomUid = "{{ chat_room.uid }}";
-        const url = `/chat/send-file/${roomUid}/`;
+        // Display progress bar
+        progressBarContainer.classList.remove('hidden');
+        progressBar.style.width = '0%';
 
         try {
-            const CSRFToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': CSRFToken,
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Use XMLHttpRequest for real-time progress tracking
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    const percentage = Math.round((event.loaded / event.total) * 100);
+                    progressBar.style.width = `${percentage}%`; // Update the progress bar width
                 }
-            });
+            };
 
-            if (!response.ok) {
-                throw new Error("File upload failed.");
-            }
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        console.log('File uploaded successfully:');
 
-            const data = await response.json();
-            progressFill.style.width = '80%';
+                        // Send the file message over WebSocket
+                        ChatSocket.send(JSON.stringify(response));
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                } else {
+                    alert('Failed to upload file. Status: ' + xhr.status);
+                }
+            };
 
-            if (data.success === true) {
-                ChatSocket.send(JSON.stringify(data)); // ChatSocket obj in ChatSocket.js file
-            }
+            xhr.onerror = function () {
+                alert('An error occurred during the file upload.');
+            };
 
+            xhr.send(formData);
         } catch (error) {
-            alert("Failed to upload file.");
+            alert('Unexpected error: ' + error.message);
         } finally {
-            progressBar.classList.add('hidden');
+            // Hide the progress bar after a delay
+            setTimeout(() => progressBarContainer.classList.add('hidden'), 1000);
         }
     }
 </script>

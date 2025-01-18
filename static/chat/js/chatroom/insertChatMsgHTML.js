@@ -15,13 +15,27 @@ function insertChatMessage(message) {
 
     } else if (message.type === 'image') {
         messageContentHTML = `
-            <img 
-                src="${message.content}" alt="Image" 
+            <img src="${message.content}" alt="Image" 
                 class="mt-1 rounded-lg cursor-pointer" 
-                onclick="viewMedia('${message.content}')"/>
-        `;
-    }
+                onclick="viewMedia('${message.content}')"/>`;
 
+    } else if (message.type === 'video') {
+        messageContentHTML = `
+        <video src="${message.content}" controls 
+            class="mt-1 rounded-lg cursor-pointer"
+            onclick="viewMedia('${message.content}')">
+        </video>`;
+
+    } else if (message.type === 'file') {
+        const filePath = message.content;
+        const baseName = filePath.split('/').pop();
+        
+        messageContentHTML = `
+            <a href="${message.content}" download class="block bg-gray-800 text-white p-2 rounded-lg mt-1 underline">
+                <img class="max-h-[30px] place-self-center" src="/static/chat/icons/download.png" alt="download">
+                ${baseName}</a>`;
+    }
+    
     // Generate the HTML structure
     const textMessageHTML = `
         <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''}">
