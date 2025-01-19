@@ -46,21 +46,22 @@ function insertChatMessage(message) {
     // Generate the HTML structure
     const textMessageHTML = `
         <div class="flex items-start space-x-1 ${isCurrentUser ? 'justify-end' : ''}">
-            ${!isCurrentUser ? `<img src="${message.avatar}" alt="User" class="w-8 h-8 rounded-full" />` : ''}
+            ${!isCurrentUser ? `<img src="${message.avatar}" alt="User" class="w-6 h-6 rounded-full" />` : ''}
             
-            <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
-                <div class="flex items-center justify-between">
-                    <p class="text-sm font-medium">${message.author}</p>
-                    <span class="text-xs text-gray-400">${message.timestamp}</span>
-                </div>
+            <div class="relative bg-slate-700 px-2 py-1 rounded-lg max-w-[60vw]">
+
+                ${!isCurrentUser && !message?.is_private_room ? `
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-light text-gray-400">${message?.author || 'Unknown'}</p>
+                    </div>
+                ` : ''}            
 
                 ${messageContentHTML}
 
                 <!-- Hover Menu -->
-                <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md">
-                    <button class="p-1">Reply</button>
-                    <button class="p-1">Edit</button>
-                    <button class="p-1">Delete</button>
+                <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md z-20">
+                    <span class="p-1 text-xs text-gray-400">${message.timestamp}</span>    
+                    <!-- <button class="p-1">Delete</button> -->
                 </div>
             </div>
         </div>

@@ -12,7 +12,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Storing variables to use in other functions to reduce db query
         self.user = self.scope['user']
-        self.profile = await database_sync_to_async(lambda: self.user.profile)()
+        
+        # Fetch user profile
+        self.profile = await database_sync_to_async(lambda: getattr(self.user, 'profile', None))()
+
+        # Fetch the chat room
+        try:
+            self.chat_room = await database_sync_to_async(ChatRoom.objects.get)(uid=self.room_uid)
+        except ChatRoom.DoesNotExist:
+            self.chat_room = None
+
+        # Validate if the chat room exists and the user is part of it
+        if not self.chat_room or not await database_sync_to_async(self.chat_room.members.filter(id=self.user.id).exists)():
+            await self.close()
+            return
 
         # Join room group
         await self.channel_layer.group_add(
@@ -44,6 +57,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'content': message,
                 'author': self.user.username,
                 'avatar': self.profile.avatar.url,
+                'is_private': self.chat_room.is_private
             }
         )
     
@@ -52,6 +66,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['content']
         author = event['author']
         avatar = event['avatar']
+        is_private = event['is_private']
 
         # Send the message to the WebSocket
         await self.send(text_data=json.dumps({
@@ -59,6 +74,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'content': message,
             'author': author,
             'avatar': avatar,
+            'is_private_room': is_private,
         }))
     
     @database_sync_to_async

@@ -23,6 +23,7 @@ ChatSocket.onmessage = function(e) {
         author: data.author,
         content: data.content,
         avatar: data.avatar,
+        is_private_room: data.is_private_room,
         timestamp: currentTime(),
     };
 
