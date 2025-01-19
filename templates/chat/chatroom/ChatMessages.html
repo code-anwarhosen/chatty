@@ -1,28 +1,30 @@
 {% load static %}
 
 <!-- START: Messages Section -->
-<main id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-2" style="margin-top: 55px; margin-bottom: 70px;">
+<main id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-1" style="margin-top: 55px; margin-bottom: 70px;">
 {% for message in chat_messages reversed %}
 
     {% if message.author == request.user %}
     <div class="flex items-start space-x-1 justify-end">
     {% else %}
     <div class="flex items-start space-x-1">
-        <img src="{{ message.author.profile.avatar.url }}" alt="User" class="w-8 h-8 rounded-full" />
+        <img src="{{ message.author.profile.avatar.url }}" alt="User" class="w-6 h-6 rounded-full" />
     {% endif %}
 
-        <div class="relative bg-slate-700 p-3 rounded-lg max-w-[60vw]">
+        <div class="relative bg-slate-700 px-2 py-1 rounded-lg max-w-[60vw]">
+
+            {% if message.author != request.user and not chat_room.is_private %}
             <div class="flex items-center justify-between">
-                <p class="text-sm font-medium">{{ message.author.profile.full_name }}</p>
-                <span class="text-xs text-gray-400">{{ message.timestamp|date:"h:i A" }}</span>
+                <p class="text-xs font-light text-gray-400">{{ message.author.profile.full_name }}</p>
+                <!-- <span class="text-xs text-gray-400">{{ message.timestamp|date:"h:i A" }}</span> -->
             </div>
+            {% endif %}
             
             {% if message.type == 'text' %}
                 <p class="mt-1">{{ message.content }}</p>
 
             {% elif message.type == 'image' %}
-                <img 
-                src="{{ message.file.url }}" alt="Image" 
+                <img src="{{ message.file.url }}" alt="Image" 
                 class="mt-1 rounded-lg cursor-pointer" 
                 onclick="viewMedia('{{ message.file.url }}')"/>
 
@@ -45,10 +47,9 @@
             {% endif %}
 
             <!-- Hover Menu -->
-            <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md">
-                <button class="p-1">Reply</button>
-                <button class="p-1">Edit</button>
-                <button class="p-1">Delete</button>
+            <div class="message-menu hidden absolute top-0 right-0 mt-1 mr-1 bg-gray-800 text-sm text-white rounded shadow-md z-20">
+                <span class="p-1 text-xs text-gray-400">{{ message.timestamp|date:"h:i A" }}</span>
+                <!-- <button class="p-1">Delete</button> -->
             </div>
 
         </div>
@@ -70,8 +71,8 @@
 <!-- Floating Scroll Button -->
 <button 
     id="scroll-down-btn" 
-    class="hidden fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-700 hover:bg-gray-600 text-white py-2 px-4 rounded-full shadow-lg focus:outline-none"
+    class="hidden fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-700 hover:bg-gray-600 text-white py-1 px-3 rounded-full shadow-lg focus:outline-none"
     onclick="scrollToBottom()"
 >
-    ↓ Scroll Down
+    ↓ Scroll
 </button>

@@ -31,6 +31,11 @@
         <button id="add-member-btn" class="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-medium">
             + Add Member
         </button>
+
+        <button onclick="window.location.href = '/room/{{ chat_group.uid }}/'" class="w-full px-4 py-2 bg-slate-700 hover:bg-gray-600 rounded-lg text-white font-medium">
+            View Messages
+        </button>
+
         <button onclick="leaveGroup('{{ chat_group.uid }}')" class="w-full px-4 py-2 bg-slate-700 hover:bg-gray-600 rounded-lg text-white font-medium">
             Leave Group
         </button>
