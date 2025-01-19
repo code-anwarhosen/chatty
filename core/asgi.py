@@ -4,8 +4,11 @@ django.setup()
 
 from django.urls import path
 from chat.consumers.chat_consumer import ChatConsumer
+from chat.consumers.OnlineStatus import OnlineStatusConsumer
+
 websocket_urlpatterns = [
     path('ws/chat/<str:room_uid>/', ChatConsumer.as_asgi()),
+    path('ws/users/online-status/', OnlineStatusConsumer.as_asgi()),
 ]
 
 from django.core.asgi import get_asgi_application

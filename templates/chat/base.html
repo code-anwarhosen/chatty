@@ -10,7 +10,7 @@
         {% block title %}{% endblock %} | Poke
     </title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'chat/css/tailwind.css' %}">
 
@@ -23,5 +23,6 @@
     {% include "chat/components/AlertMessage.html" %}
     
     <script src="{% static 'chat/js/BaseScript.js' %}"></script>
+    <script src="{% static 'chat/js/OnlineStatusWS.js' %}"></script>
 </body>
 </html>
