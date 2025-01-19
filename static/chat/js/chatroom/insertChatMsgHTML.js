@@ -52,7 +52,7 @@ function insertChatMessage(message) {
 
                 ${!isCurrentUser && !message?.is_private_room ? `
                     <div class="flex items-center justify-between">
-                        <p class="text-xs font-light text-gray-400">${message?.author || 'Unknown'}</p>
+                        <p class="text-xs font-light text-gray-400">${message?.author_name || 'Unknown'}</p>
                     </div>
                 ` : ''}            
 

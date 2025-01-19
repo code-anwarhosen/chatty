@@ -21,6 +21,7 @@ ChatSocket.onmessage = function(e) {
     const msgObject = {
         type: data.msgType,
         author: data.author,
+        author_name: data.author_name,
         content: data.content,
         avatar: data.avatar,
         is_private_room: data.is_private_room,
