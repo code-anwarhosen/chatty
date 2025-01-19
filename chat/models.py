@@ -150,7 +150,7 @@ class Message(models.Model):
                 self.type = 'image'
             elif filename.endswith(('.mp4', '.webm')):
                 self.type = 'video'
-            elif filename.endswith(('.mp3', '.wav', '.aac', '.ogg', '.m4a')):
+            elif filename.endswith(('.mp3', '.opus', '.wav', '.aac', '.ogg', '.m4a')):
                 self.type = 'audio'
             else:
                 self.type = 'file'

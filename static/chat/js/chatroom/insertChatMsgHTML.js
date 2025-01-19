@@ -18,6 +18,13 @@ function insertChatMessage(message) {
             <img src="${message.content}" alt="Image" 
                 class="mt-1 rounded-lg cursor-pointer" 
                 onclick="viewMedia('${message.content}')"/>`;
+    
+    } else if (message.type === 'audio') {
+        messageContentHTML = `
+            <audio src="${message.content}" controls 
+                class="mt-3 w-[200px] md:w-[300px] lg:w-[400px] cursor-pointer">
+                Your browser does not support the audio element.
+            </audio>`;
 
     } else if (message.type === 'video') {
         messageContentHTML = `

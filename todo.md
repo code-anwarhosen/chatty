@@ -1,2 +1,2 @@
 * [ ]  Add sent/delivered/seen feture
-* [X]  Send image files in chat
+* [X]  Send files in chat
