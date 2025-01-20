@@ -63,20 +63,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
-
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [env('REDIS_URL')],
-#         },
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
 #     },
 # }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [env('REDIS_URL')],
+        },
+    },
+}
 
 DATABASES = {
     'default': env.db('DATABASE_URL')
@@ -110,9 +110,6 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Disable static file caching during development
-WHITENOISE_AUTOREFRESH = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
