@@ -1,7 +1,6 @@
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.timezone import now
 from io import BytesIO
 from PIL import Image
 import os, uuid
@@ -62,8 +61,6 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = str(uuid.uuid4())
-
-        self.last_seen = None if self.is_online else now()
 
         if self.avatar and self._avatar_needs_compression():
             if self.avatar.name != default_user_avatar:

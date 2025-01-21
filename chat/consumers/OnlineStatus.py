@@ -1,6 +1,7 @@
+import json
+from django.utils.timezone import now
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-import json
 
 class OnlineStatusConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -52,9 +53,10 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
 
 
     def setOnlineStatus(self, status=True):
-        if self.profile:  # Ensure profile exists before setting the status
+        if self.profile:
             self.profile.is_online = status
-            self.profile.save(update_fields=['is_online'])
+            self.profile.last_seen = now()
+            self.profile.save(update_fields=['is_online', 'last_seen'])
 
     async def sendOnlineStatus(self, event):
         await self.send(text_data=json.dumps(event))

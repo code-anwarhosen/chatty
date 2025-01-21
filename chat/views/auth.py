@@ -1,12 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from chat.forms.register import CustomUserCreationForm
 from chat.forms.password_change import CustomPasswordChangeForm
-from chat.models import Profile
+from chat.models import Profile, User
 
 def UserLogin(request):
     """Handle user login functionality"""
@@ -37,7 +36,7 @@ def UserRegister(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Profile.objects.create(user=user, is_online=True)
+            Profile.objects.create(user=user)
 
             login(request, user)
             messages.success(request, 'Registration successful!')
