@@ -54,7 +54,7 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
     def setOnlineStatus(self, status=True):
         if self.profile:  # Ensure profile exists before setting the status
             self.profile.is_online = status
-            self.profile.save()
+            self.profile.save(update_fields=['is_online'])
 
     async def sendOnlineStatus(self, event):
         await self.send(text_data=json.dumps(event))
