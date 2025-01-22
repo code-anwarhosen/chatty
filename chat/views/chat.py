@@ -1,10 +1,10 @@
+import json
 from django.contrib import messages
 from django.http import JsonResponse
+from django.utils.timezone import localtime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from chat.models import Profile, ChatRoom, Message
-from django.contrib.auth.models import User
-import json
+from chat.models import Profile, ChatRoom, Message, User
 
 @login_required
 def Home(request):
@@ -78,6 +78,34 @@ def ChatRoomView(request, room_uid):
         'chat_messages': chat_messages,
     }
     return render(request, 'chat/pages/ChatRoom.html', context)
+
+@login_required
+def PaginatedChatMessages(request, room_uid):
+    user = request.user
+    chat_room = ChatRoom.objects.filter(uid=room_uid).first()
+
+    if not chat_room:
+        return JsonResponse({'success': False, 'error': "Chat room doesn't exists"})
+
+    # Pagination parameters
+    limit = int(request.GET.get('limit', 20))  # Default to 20 messages per request
+    offset = int(request.GET.get('offset', 0))  # Starting point
+
+    # Fetch messages in reverse order (latest first)
+    messages = Message.objects.filter(room=chat_room).order_by('-timestamp')[offset:offset + limit]
+
+    serialized_messages = [{
+            'author': message.author.username,
+            'full_name': message.author.profile.full_name,
+
+            'avatar_url': message.author.profile.avatar.url,
+            'content': message.content,
+            'file_url': message.file.url if message.file else None,
+            'type': message.type,
+            'timestamp': localtime(message.timestamp).strftime('%d-%b %I:%M %p'), # return 20-Jan 2:40 PM
+            'is_private_room': chat_room.is_private,
+        } for message in messages]
+    return JsonResponse({'success': True, 'messages': serialized_messages})
 
 @login_required
 def UploadChatFile(request, room_uid):

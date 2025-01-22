@@ -1,15 +1,15 @@
 {% load static %}
 
 <div class="h-screen flex flex-col">
+    {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from ChatSocket.js -->
+    {{ request.user.username|json_script:"current_user_name" }} <!-- Called from ChatTextMsgHTML.js -->
+
     {% include "chat/chatroom/ChatHeader.html" %}
     {% include "chat/chatroom/ChatMessages.html" %}
     {% include "chat/chatroom/ChatInput.html" %}
 
-    {{ chat_room.uid|json_script:"chat_room_uid" }} <!-- Called from ChatSocket.js -->
-    {{ request.user.username|json_script:"current_user_name" }} <!-- Called from ChatTextMsgHTML.js -->
-    
+    <script src="{% static 'chat/js/chatroom/InitialChatMsgLoad.js' %}"></script>
     <script src="{% static 'chat/js/chatroom/ChatSocket.js' %}"></script>
     <script src="{% static 'chat/js/chatroom/ChatScript.js' %}"></script>
-
     <script src="{% static 'chat/js/chatroom/insertChatMsgHTML.js' %}"></script>
 </div>
